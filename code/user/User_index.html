@@ -1,0 +1,203 @@
+<!doctype html>
+	<head>
+		<title>管理员管理</title>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+		<link rel="import" href="../../statics/include-header.html">
+		<link rel="import" href="../../statics/include-JS.html">
+	</head>
+	<body>
+	<abbr>
+		<div id="body1">
+			<button type="button" id="openAddUser" class="btn btn-wide btn-primary" data-toggle="modal" data-target="#md-modal">
+				添加管理员
+			</button>
+			<br/>
+			<div class="modal fade " id="md-modal" tabindex="-1" role="dialog" aria-labelledby="modal-default-label">
+				<input hidden="hidden" id="flag"/>
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header state modal-primary">
+							<h4 class="modal-title" id="modal-default-label">用户信息</h4>
+						</div>
+						<div class="modal-body">
+							<div class="col-md-12">
+								<div class="panel">
+									<div class="panel-content">
+										<div class="row">
+											<div class="col-sm-12">
+												<form id="addUserForm" class="form-horizontal form-stripe">
+													<h6 class="mb-xlg text-center"><b>创建用户</b></h6>
+													<div class="form-group">
+														<label  class="col-sm-2 control-label">姓名</label>
+														<div class="col-sm-10">
+															<input type="text" id="username" class="form-control" name="username" placeholder="请输入您的姓名" autocomplete="off">
+														</div>
+													</div>
+													<div class="form-group">
+														<label  class="col-sm-2 control-label">密码</label>
+														<div class="col-sm-10">
+															<input type="text" id="password" onfocus="this.type='password'" class="form-control" name="password" placeholder="请输入您的密码" autocomplete="off">
+														</div>
+													</div>
+												</form>
+												<form id="updateUserForm" class="form-horizontal form-stripe">
+													<input hidden="hidden" id="id" name="id">
+													<h6 class="mb-xlg text-center"><b>密码修改</b></h6>
+													<div class="form-group">
+														<label  class="col-sm-2 control-label">旧密码</label>
+														<div class="col-sm-10">
+															<input type="text" id="oldPassword" onfocus="this.type='password'" class="form-control" name="oldPassword" placeholder="请输入您的旧密码" autocomplete="off">
+														</div>
+													</div>
+													<div class="form-group">
+														<label  class="col-sm-2 control-label">新密码</label>
+														<div class="col-sm-10">
+															<input type="text" id="newPassword" onfocus="this.type='password'" class="form-control" name="newPassword" placeholder="请输入您的新密码" autocomplete="off">
+														</div>
+													</div>
+												</form>
+
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<input id="info" hidden="hidden" value="">
+						<div class="modal-footer">
+							<div class="reminder-info"></div>
+							<button id="addOrUpdateUser" type="button" class="btn btn-primary">确定</button>
+							<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-12 mt-md  mb-lg ">
+				<div class="panel">
+					<div class="panel-content">
+						<table id="sqz" class="data-table table table-striped table-hover responsive nowrap" cellspacing="0" width="100%">
+							<thead>
+							<tr>
+								<th name="id">ID</th>
+								<th name="username">姓名</th>
+								<th name="cz">状态</th>
+							</tr>
+							</thead>
+						</table>
+					</div>
+				</div>
+			</div>
+			<!--提示信息-->
+			<input id="message" hidden="hidden" value="">
+			<div class="alert ts" style="display:none">
+				<h2>消息</h2>
+				<div class="alert_con">
+					<p id="ts"></p>
+					<p style="line-height:70px"><a class="btn" id="sure">确定</a></p>
+				</div>
+			</div>
+
+			<!-- 成功刷新-->
+			<input id="success" hidden="hidden" value=""><!--value="${message}"-->
+			<div class="alert sx" style="display:none">
+				<h2>消息</h2>
+				<div class="alert_con">
+					<p id="cg"></p>
+					<p style="line-height:70px"><a class="btn" id="succ">确定</a></p>
+				</div>
+			</div>
+		</div>
+			<script type="text/javascript">
+
+                //提示信息确定
+                $("#succ").click(function(){
+                    showHtmlRight('./code/user/User_index.html');
+                })
+                $("#sure").click(function(){
+                    is_hide();
+                })
+
+                //加载头部和菜单栏
+                $(function() {
+                    var result=showHtml(url2+"user/selectUserAll","");
+                    if(result!=null){
+                        for(var p in result.userList){//遍历json数组时，这么写p为索引，0,1
+                            result.userList[p].cz='<button type="button"  onclick="updateUser('+result.userList[p].id+')" class="btn btn-wide btn-info" data-toggle="modal" data-target="#md-modal">修改密码';
+                        }
+                        ShowDataTable("sqz",result.userList ,"id");
+					}
+                });
+                //打开新增页面，清空数据
+                $("#openAddUser").click(function(){
+                    $("#id").val("");
+                    $("#username").val("");
+                    $("#password").val("");
+                    $("#addUserForm").css('display','block');
+                    $("#updateUserForm").css('display','none');
+                    $("#flag").val("add");//新增
+                })
+                function updateUser(id){
+                    $("#id").val(id);
+                    $("#addUserForm").css('display','none');
+                    $("#updateUserForm").css('display','block');
+                    $("#oldPassword").val("");
+                    $("#newPassword").val("");
+                    $("#flag").val("update");//修改
+                }
+                $("#addOrUpdateUser").click(function(){
+                    var flag= $("#flag").val();
+                    if(flag=="add"){
+                        var username=$("#username").val();
+                        var password=$("#password").val();
+                        if(username==""||username==null){
+                            is_show("#ts","请输入用户名~",true);
+                            return;
+                        }
+                        if(password==""||password==null){
+                            is_show("#ts","请输入密码~",true);
+                            return;
+                        }
+                        var params=$("#addUserForm").serializeJson();
+
+                        var result=showHtml(url2+"user/checkUserName",params);
+
+                        if(result!=null&&result.flag){
+                            var result=showHtml(url2+"user/addUser",params);
+                            console.log(result);
+                           if(result.flag){
+                               $("#addOrUpdateUser").attr("disabled","disabled");
+                                is_show("#cg","新增成功~",false);
+							}else{
+                                is_show("#cg",result.message,false);
+							}
+                        }else{
+                        is_show("#ts","用户名被占用~",false);
+						}
+                }else{
+                    //修改
+                    var oldPassword=$("#oldPassword").val();
+                    var newPassword=$("#newPassword").val();
+                    if(oldPassword==""||oldPassword==""){
+                        is_show("#ts","请输入旧密码~",true);
+                        return ;
+                    }
+                    if(newPassword==""||newPassword==""){
+                        is_show("#ts","请输入新密码~",true);
+                        return;
+                    }
+                    var result=showHtml(url2+"user/updateUser",$("#updateUserForm").serializeJson());
+                    if(result!=null&&result.flag){
+                        $("#addOrUpdateUser").attr("disabled","disabled");
+                        is_show("#cg","修改成功~",false);
+                    }else{
+                        is_show("#ts","旧密码输入错误~",true);
+                    }
+                }
+                })
+
+			</script>
+	</abbr>
+	</body>
+</html>

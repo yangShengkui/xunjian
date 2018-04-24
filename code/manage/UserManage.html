@@ -1,0 +1,470 @@
+<!doctype html>
+<html lang="en" id="html" class="fixed">
+
+	<head>
+		<title>用户管理</title>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+		<link rel="import" href="../../statics/include-header.html">
+		<link rel="import" href="../../statics/include-JS.html">
+
+	</head>
+
+	<body>
+
+	<abbr>
+
+		<link rel="stylesheet" href="../../statics/css/multiple-select.css" />
+		<script  type="text/javascript" src="../../statics/js/multiple-select.js"></script>
+
+	<div id="body1">
+
+		<button type="button" id="addDiv" class="btn btn-wide btn-primary" data-toggle="modal" data-target="#md-modal">
+			人员添加
+		</button>
+		<div class="modal fade" id="error-modal" tabindex="-1" role="dialog" aria-labelledby="modal-error-label">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header state modal-danger">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="modal-error-label"><i class="fa fa-warning"></i>删除用户</h4>
+					</div>
+					<div class="modal-body">
+						请您确定要删除此数据吗？
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-danger" data-dismiss="modal" onclick="delUser()">确定</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<br/>
+
+		<!--添加-->
+		<div class="modal fade " id="md-modal" tabindex="-1" role="dialog" aria-labelledby="modal-default-label">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header state modal-primary">
+
+						<h4 class="modal-title" id="modal-default-label">用户信息</h4>
+					</div>
+					<div class="modal-body">
+						<div class="col-md-12">
+							<div class="panel">
+								<div class="panel-content">
+									<div class="row">
+										<div class="col-sm-12">
+											<form id="Addform" class="form-horizontal form-stripe" autocomplete="off">
+												<h6 class="mb-xlg text-center"><b>创建用户</b></h6>
+												<div class="form-group">
+													<label class="col-sm-2 control-label">姓名</label>
+													<div class="col-sm-10">
+														<input type="text" class="form-control" name="name" id="name" placeholder="请输入您的姓名" autocomplete="off">
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-sm-2 control-label">电话</label>
+													<div class="col-sm-10">
+														<input type="text" class="form-control" name="phone" id="phone"  placeholder="请输入您的电话" maxlength="11" onkeyup="this.value=this.value.replace(/\D/g,'')" autocomplete="off">
+														<input type="hidden" name="id">
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-sm-2 control-label">密码</label>
+													<div class="col-sm-10">
+														<input type="text" onfocus="this.type='password'" class="form-control" name="password" id="password"  placeholder="请输入您的密码" autocomplete="off">
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-sm-2 control-label">区域</label>
+													<div class="col-sm-10">
+														<div class="btn-group" id="addRadio" data-toggle="buttons">
+
+														</div>
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-sm-2 control-label">管辖区域</label>
+													<div class="col-sm-10">
+														<select id="select-xz" multiple="multiple" name="regionIds">
+														</select>
+													</div>
+												</div>
+											</form>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<div class="reminder-info"></div>
+						<button type="button" class="btn btn-primary"  id="AddSubmit">确定</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<!--修改-->
+		<div class="modal fade " id="xg-modal" tabindex="-1" role="dialog" aria-labelledby="modal-default-label">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header state modal-primary">
+						<h4 class="modal-title" >用户信息</h4>
+					</div>
+					<div class="modal-body">
+						<div class="col-md-12">
+							<div class="panel">
+								<div class="panel-content">
+									<div class="row">
+										<div class="col-sm-12">
+											<form id="Updateform" class="form-horizontal form-stripe">
+												<h6 class="mb-xlg text-center"><b>修改用户</b></h6>
+												<div class="form-group">
+													<label class="col-sm-2 control-label">姓名</label>
+													<div class="col-sm-10">
+														<input type="text" class="form-control" id="name-xg" name="customerName" placeholder="请输入您的姓名" autocomplete="off">
+													</div>
+												</div>
+												<div class="form-group">
+													<label  class="col-sm-2 control-label">旧密码</label>
+													<div class="col-sm-10">
+														<input type="password" class="form-control" id="oldPassword-xg" name="oldPassword"  placeholder="请输入您的旧密码" autocomplete="off">
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-sm-2 control-label">新密码</label>
+													<div class="col-sm-10">
+														<input type="password" class="form-control" id="newPassword-xg" name="newPassword"  placeholder="请输入您的新密码" autocomplete="off">
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-sm-2 control-label">区域</label>
+													<div class="col-sm-10">
+														<div class="btn-group" id="updateRadio" data-toggle="buttons">
+
+														</div>
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-sm-2 control-label">管辖区域</label>
+													<div class="col-sm-10">
+														<select id="select-xg" multiple="multiple" name="regionIds">
+
+														</select>
+													</div>
+												</div>
+												<input type="hidden" name="id" id="id" value="" />
+											</form>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<div class="reminder-info"></div>
+						<button type="button" class="btn btn-primary" id="updateSubmit">确定</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-sm-12 mt-md  mb-lg ">
+			<div class="panel">
+				<div class="panel-content">
+
+					<table id="sqz" class="data-table table table-striped table-hover responsive nowrap" cellspacing="0" width="100%">
+
+						<thead>
+							<tr>
+								<th name="id">ID</th>
+								<th name="name">姓名</th>
+								<th name="phone">电话</th>
+								<th name="cz">操作</th>
+							</tr>
+						</thead>
+
+					</table>
+				</div>
+			</div>
+		</div>
+
+
+		<!--提示信息-->
+		<input id="message" hidden="hidden" value="">
+		<div class="alert ts" style="display:none">
+			<h2>消息</h2>
+			<div class="alert_con">
+				<p id="ts"></p>
+				<p style="line-height:70px"><a class="btn" id="sure">确定</a></p>
+			</div>
+		</div>
+
+		<!-- 成功刷新-->
+		<input id="success" hidden="hidden" value="">
+		<div class="alert sx" style="display:none">
+			<h2>消息</h2>
+			<div class="alert_con">
+				<p id="cg"></p>
+				<p style="line-height:70px"><a class="btn" id="succ">确定</a></p>
+			</div>
+		</div>
+		
+		<script type="text/javascript">
+
+            $(function() {
+                var result=showHtml(url2+"customer/selectAllCustomer","");
+                console.log(result.customerList);
+
+                for(var p in result.customerList){//遍历json数组时，这么写p为索引，0,1
+
+                    result.customerList[p].cz='<button class="btn btn-wide btn-o btn-info"  data-toggle="modal"   data-target="#xg-modal" onclick="upUser(\''+result.customerList[p].id+'\',\''+result.customerList[p].name+'\')">修改</button>'+
+                        '<button class="btn btn-wide btn-o btn-danger" data-toggle="modal"   data-target="#error-modal" onclick="setdel('+result.customerList[p].id+')" >删除</button>';
+                }
+
+                ShowDataTable("sqz",result.customerList,"id");
+
+            });
+
+
+            //提示信息确定
+            $("#succ").click(function(){
+                showHtmlRight('./code/manage/UserManage.html');
+            })
+            $("#sure").click(function(){
+                is_hide();
+            })
+
+            function h5Menu(){
+                if($("#html").attr("class")=="fixed")
+                    $("#html").addClass("left-sidebar-open");
+                else
+                    $("#html").removeClass("left-sidebar-open");
+            }
+
+            //添加用户提交
+            $("#AddSubmit").click(function(){
+                var s=$("#Addform").serializeJson();
+                var name = $("#name").val();
+                var phone = $("#phone").val();
+                var password = $("#password").val();
+                var regionIds = $('#select-xz').val();
+                if(name == ''){
+                    is_show("#ts","请输入姓名",true);
+                    return false;
+				}else if(phone == '' || phone.length != 11) {
+                    is_show("#ts","请输入11位手机号",true);
+                    return false;
+				}else if(password == '') {
+                    is_show("#ts","请输入密码",true);
+                    return false;
+				}else if(regionIds == null) {
+                    is_show("#ts","请选择管辖区域",true);
+                    return false;
+				}
+                var result=addData(url2+"customer/checkCustomer",{"phone":phone});
+                if(result.flag){
+                    //此处后台方法报错，需要处理
+                    var result=showHtml(url2+"customer/addCustomer",s);
+                    if(result.flag){
+                        $("#AddSubmit").attr("disabled","disabled");
+                        is_show("#cg","新增成功~",false);
+                    }else{
+                        is_show("#ts","添加失败",true);
+                    }
+                }else{
+                    is_show("#ts","该手机号已占用",true);
+                }
+
+            })
+
+
+
+            //修改
+            function upUser(id,name) {
+
+                $("#id").val('');
+                $("#name-xg").val('');
+                $("#oldPassword-xg").val('');
+                $("#newPassword-xg").val('');
+
+                $("#id").val(id);
+                $("#name-xg").val(name);
+                var parent_id = "";//管辖区域父类id
+                regionIds ="";
+
+                //获取用户管辖区域
+                var result = addData(url2 + "userRegion/selectRegionByCustomerId", {customerId: id});
+                var userRegionList = result.userRegionList;
+                for (var ids in userRegionList) {
+                    regionIds+=userRegionList[ids].region_id+",";
+                    if (ids == 0) {
+                        var result = addData(url2 + "region/getRegionById", {id: userRegionList[0].region_id});
+                        parent_id = result.region.parent_id;
+                    }
+                }
+                //单选框
+                $("#updateRadio").html('');
+                //加载单选框
+                var h='';
+                var result = addData(url2 + "region/selectRegionParent", "");
+                var parentRegion=result.regionList;
+                for (var ids in parentRegion) {
+                    if (parentRegion[ids].id == parent_id) {
+                        h += '<label class="btn btn-default active" style="margin-right: 10px" >' +
+                            ' <input type="radio" name="parent_id" class="toggle" value="' + parentRegion[ids].id + '" checked="checked">' + parentRegion[ids].name +
+                            '</label>'
+                    } else {
+                        h += '<label class="btn btn-default">' +
+                            ' <input type="radio" name="parent_id" class="toggle" value="' + parentRegion[ids].id + '">' + parentRegion[ids].name +
+                            '</label>'
+                    }
+                }
+                $("#updateRadio").html(h);
+                loadArea(regionIds,$('#updateRadio input:radio:checked').val());
+            }
+            $("#updateRadio").change(function(){
+                loadArea(regionIds,$('#updateRadio input:radio:checked').val());
+            })
+            var regionIds;
+            function loadArea(regionIds,check){
+                $("#select-xg").html("");
+                var result=addData(url2+"region/selectRegionByParentId",{id:check});
+                var data = result.regionList;
+                var option;
+                for(var i = 0; i < data.length; i++) {
+                    option += '<option value="' + data[i].id + '">' + data[i].name + '</option>';
+                }
+                $("#select-xg").html(option);
+                $("#select-xg").multipleSelect();
+                //加载选中
+                var sceneIdArr = regionIds.split(",");
+                $('#select-xg option').each(function(i,content){
+                    //alert(i+"***"+content.value);
+                    if($.inArray($.trim(content.value),sceneIdArr)>=0){
+                        this.selected=true;
+                    }
+                });
+                //设置选中值后，需要刷新select控件
+                $("#select-xg").multipleSelect('refresh');
+            }
+
+
+            //修改提交
+            $("#updateSubmit").click(function () {
+                var s=$("#Updateform").serializeJson();
+                var name = $("#name-xg").val();
+                var oldPassword = $("#oldPassword-xg").val();
+                var newPassword = $("#newPassword-xg").val();
+                if(name == ''){
+                    is_show("#ts","姓名不能为空",true);
+                    return false;
+                }else if(oldPassword == '') {
+                    is_show("#ts","旧密码不能为空",true);
+                    return false;
+                }else if(newPassword == '') {
+                    is_show("#ts","新密码不能为空",true);
+                    return false;
+                }else {
+                    //此处后台方法报错，需要处理
+                    var result=showHtml(url2+"customer/updateCustomer",s);
+                    console.log(result.flag);
+                    if(result.flag){
+                        $("#updateSubmit").attr("disabled","disabled");
+                        is_show("#cg","修改成功~",false);
+                    }else{
+                        is_show("#ts","修改失败~",true);
+                    }
+                }
+
+            })
+
+
+
+            //删除数据
+            var delFid;
+            function setdel(fid) {
+                delFid = fid;
+            }
+            //确定删除
+            function delUser() {
+                var data = addData(url2 + "customer/deleteCustomer", {id: delFid});
+                if(data.flag){
+                    is_show("#cg","删除成功",false);
+                }else{
+                    is_show("#ts","删除失败",true);
+                }
+
+            }
+
+            //管辖区域下拉复选框
+            $(function() {
+                $('#select-xz').change(function() {
+                }).multipleSelect({
+                    width: '100%'
+                });
+                $('#select-xg').change(function() {
+                }).multipleSelect({
+                    width: '100%'
+                });
+            });
+
+            //添加，初始化数据
+            $("#addDiv").click(function(){
+                //清空表单
+                $("#Addform").clearfrom();
+                $("#name").val('');
+                $("#phone").val('');
+                $("#password").val('');
+                //单选框
+                $("#addRadio").html('');
+                var result=showHtml(url2+"region/selectRegionParent","");
+                var h="";
+                var datas = result.regionList;
+                for(var ids in datas) {
+                    if(ids==0){
+                        h+= '<label class="btn btn-default active" style="margin-right: 10px" >'+
+                            ' <input type="radio" name="parent_id" class="toggle" value="'+datas[ids].id+'" checked="checked">'+datas[ids].name+
+                            '</label>'
+                    }else{
+                        h+= '<label class="btn btn-default">'+
+                            ' <input type="radio" name="parent_id" class="toggle" value="'+datas[ids].id+'">'+datas[ids].name+
+                            '</label>'
+                    }
+                };
+                $("#addRadio").html(h);
+
+                FindArea("#select-xz",$('#addRadio input:radio:checked').val());
+            })
+            $("#addRadio").change(function(){
+                FindArea("#select-xz",$('#addRadio input:radio:checked').val())
+            })
+
+
+            //通过parent_id查询区域
+            function FindArea(reginId,paren_id) {
+                $(reginId).html("");
+                var result=addData(url2+"region/selectRegionByParentId",{id:paren_id});
+                if(result!=null&&result.regionList!=null){
+                    var data = result.regionList;
+                    var option;
+                    for(var i = 0; i < data.length; i++) {
+                        option += '<option value="' + data[i].id + '">' + data[i].name + '</option>';
+                    }
+                    $(reginId).html(option); //将内容显示在复选框， $(className).append(option) 也是可以的;
+                    $(reginId).multipleSelect();
+				}
+
+            }
+			
+		</script>
+	</abbr>
+	</body>
+
+</html>

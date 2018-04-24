@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+    <head>
+        <meta charset="utf-8">
+        <title>注册</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <!-- CSS -->
+        <link rel="stylesheet" href="../../statics/css/login/reset.css">
+        <link rel="stylesheet" href="../../statics/css/login/supersized.css">
+        <link rel="stylesheet" href="../../statics/css/login/style.css">
+
+        <!-- Javascript -->
+        <script src="../../statics/assets/javascripts/jquery.min.js"></script>
+        <script src="../../statics/js/login/supersized.3.2.7.min.js"></script>
+        <script src="../../statics/js/login/supersized-init.js"></script>
+        <script src="../../statics/js/public.js"></script>
+    </head>
+    
+
+    <body oncontextmenu="return false" onkeydown="keyRegister();">
+
+        <div class="page-container">
+            <h1>注册</h1>
+            <form id="registerForm" action="" method="post" novalidate="novalidate">
+				<div>
+					<input type="text" id="username" name="username" class="username" placeholder="请输入您的用户名" autocomplete="off"/>
+				</div>
+                <div>
+					<input type="text" onfocus="this.type='password'" id="password" name="password" class="password" placeholder="请输入您的密码" oncontextmenu="return false" />
+                </div>
+                <button id="submit" type="button">确定</button>
+            </form>
+            <div class="connect">
+				<p style="margin-top:20px;">如果只是遇见，不能停留，不如不遇见。</p>
+            </div>
+        </div>
+        <!--提示信息-->
+        <input id="message" hidden="hidden" value="">
+        <div class="alert ts" style="display:none">
+            <h2>消息</h2>
+            <div class="alert_con">
+                <p id="ts"></p>
+                <p style="line-height:70px"><a class="btn" id="sure">确定</a></p>
+            </div>
+        </div>
+
+		<script>
+
+        //提示信息确定
+        $("#sure").click(function(){
+            is_hide();
+        })
+		$("#submit").click(function(){
+			if($("#username").val() == ''){
+                is_show("#ts","请输入您的用户名",true);
+				return;
+			}else if($("#password").val() =='') {
+                is_show("#ts","请输入您的密码",true);
+                return;
+            }
+            var result=showHtml(url2 + "user/checkUserName", $("#registerForm").serializeJson());
+            if(result.flag){
+                var result=showHtml(url2 + "user/addUser", $("#registerForm").serializeJson());
+                if(result.flag){
+                    window.location.href = 'User_login.html';
+                }else{
+                    is_show("#ts","注册失败",true);
+                }
+            }else{
+                is_show("#ts","该帐号已被注册",true);
+            }
+
+
+		});
+		window.onload = function()
+		{
+            $("#username").val('');
+            $("#password").val('');
+			$(".connect p").eq(0).animate({"left":"0%"}, 600);
+		};
+
+        //回车登录
+        function keyRegister(){
+            if (event.keyCode==13)  //回车键的键值为13
+                $("#submit").click(); //调用登录按钮的登录事件
+        }
+
+        //禁用页面后退
+        history.pushState(null, null, document.URL);
+        window.addEventListener('popstate', function () {
+            history.pushState(null, null, document.URL);
+        });
+
+		</script>
+    </body>
+
+</html>
+

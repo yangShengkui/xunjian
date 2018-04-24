@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en" id="html" class="fixed">
+
+<head>
+	<title>区域管理</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+	<link rel="import" href="../../statics/include-header.html">
+	<link rel="import" href="../../statics/include-JS.html">
+
+</head>
+<body>
+<abbr>
+
+	<div id="body1">
+		<button type="button"  class="btn btn-wide btn-primary" data-toggle="modal" data-target="#md-modal" onclick="addAndUpdateRegion('')">
+			添加区域
+		</button>
+		<div class="modal fade" id="error-modal" tabindex="-1" role="dialog" aria-labelledby="modal-error-label">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header state modal-danger">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="modal-error-label"><i class="fa fa-warning"></i>删除区域</h4>
+					</div>
+					<div class="modal-body">
+						请您确定要删除此数据吗？
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-danger" data-dismiss="modal" id="deleteBtn">确定</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<br/>
+		<div class="modal fade " id="md-modal" tabindex="-1" role="dialog" aria-labelledby="modal-default-label">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header state modal-primary">
+						<h4 class="modal-title" id="modal-default-label">区域信息</h4>
+					</div>
+					<div class="modal-body">
+						<div class="col-md-12">
+							<div class="panel">
+								<div class="panel-content">
+									<div class="row">
+										<div class="col-sm-12">
+											<form id="addRegionForm" class="form-horizontal form-stripe">
+												<h6 class="mb-xlg text-center"><b id="openDivName"></b></h6>
+												<input id="id" name="id" hidden="hidden">
+												<div class="form-group">
+													<label  class="col-sm-2 control-label">区域名称</label>
+													<div class="col-sm-10">
+														<input type="text" id="name" class="form-control" name="name" placeholder="请输入您的区域名称" autocomplete="off">
+													</div>
+												</div>
+												<div class="btn-group" id="radio" data-toggle="buttons">
+												</div>
+											</form>
+
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<input id="info" hidden="hidden" value="">
+					<div class="modal-footer">
+						<div class="reminder-info"></div>
+						<button  type="button" class="btn btn-primary" id="submitRegion">确定</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-12 mt-md  mb-lg ">
+			<div class="panel">
+				<div class="panel-content">
+					<table id="sqz" class="data-table table table-striped table-hover responsive nowrap" cellspacing="0" width="100%">
+						<thead>
+							<tr>
+								<th name="id">ID</th>
+								<th name="name">区域名称</th>
+								<th name="cz">状态</th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!--提示信息-->
+	<input id="message" hidden="hidden" value=""><!--value="${message}"-->
+	<div class="alert ts" style="display:none">
+		<h2>消息</h2>
+		<div class="alert_con">
+			<p id="ts"></p>
+			<p style="line-height:70px"><a class="btn" id="sure">确定</a></p>
+		</div>
+	</div>
+
+	<!-- 成功刷新-->
+	<input id="success" hidden="hidden" value=""><!--value="${message}"-->
+	<div class="alert sx" style="display:none">
+		<h2>消息</h2>
+		<div class="alert_con">
+			<p id="cg"></p>
+			<p style="line-height:70px"><a class="btn" id="succ">确定</a></p>
+		</div>
+	</div>
+
+
+<script type="text/javascript">
+
+    //提示信息确定
+    $("#succ").click(function(){
+        showHtmlRight('./code/region/region.html');
+    })
+    $("#sure").click(function(){
+        is_hide();
+    })
+    $(function() {
+        var result=showHtml(url2 + "region/selectAllRegion","");
+        if(null!=result){
+            for(var p in result.regionList){
+                var html='<button type="button" onclick="addAndUpdateRegion(' + result.regionList[p].id + ')" class="btn btn-wide btn-info" data-toggle="modal" data-target="#md-modal">' +
+                    '修改区域' +
+                    '</button>' +
+                    '<button type="button" onclick="delRegion(' + result.regionList[p].id + ')" class="btn btn-wide btn-danger" data-toggle="modal" data-target="#error-modal">' +
+                    '删除区域' +
+                    '</button>';
+                result.regionList[p].cz=html;
+            }
+            ShowDataTable("sqz",result.regionList ,"id");
+		}
+    });
+    function addAndUpdateRegion(id){
+        $("#id").val("");
+        $("#name").val("");
+        $("#radio").html('');
+        var result=showHtml(url2+"region/selectRegionParent","");
+        var h="";
+        if(result!=null){
+            var datas = result.regionList;
+            for(var ids in datas) {
+                if(ids==0){
+                    h+= '<label class="btn btn-default active" style="margin-right: 10px" >'+
+                        ' <input type="radio" name="parent_id" class="toggle" value="'+datas[ids].id+'" checked="checked">'+datas[ids].name+
+                        '</label>'
+                }else{
+                    h+= '<label class="btn btn-default">'+
+                        ' <input type="radio" name="parent_id" class="toggle" value="'+datas[ids].id+'">'+datas[ids].name+
+                        '</label>'
+                }
+            }
+		}
+
+        $("#radio").html(h);
+        //通过id获取数据
+        if(id!='' &&id!=null){
+            $("#id").val(id);
+            $("#openDivName").text("修改区域");
+            var result=addData(url2+"region/getRegionById",{id:id});
+            if(result!=null&&result.region!=null){
+                $("#name").val(result.region.name);
+                $("#radio input").parent().removeClass("active");
+                $("input:radio[value="+result.region.parent_id+"]").attr('checked','true').parent().addClass("active");;
+            }
+        }else{
+            $("#openDivName").text("新增区域");
+        }
+    }
+    $("#submitRegion").click(function(){
+        if($("#name").val() == ''){
+            is_show("#ts","区域名称不能为空~",true);
+            return;
+        }
+        var id= $("#id").val();
+        var params=$("#addRegionForm").serializeJson();
+        if(id!=null&&id!=""){
+
+            var result=showHtml(url2+"region/updateRegion",params);
+            if(result!=null&&result.flag){
+                $("#submitRegion").attr("disabled","disabled");
+                is_show("#cg","修改成功~",false);
+            }else{
+                is_show("#ts","修改失败~",true);
+            }
+            is_show();
+        }else{
+
+            var result=showHtml(url2+"region/addRegion",params);
+            if(result!=null&&result.flag){
+                $("#submitRegion").attr("disabled","disabled");
+                is_show("#cg","添加成功~",false);
+            }else{
+                is_show("#ts","添加失败~",true);
+            }
+            is_show();
+        }
+    })
+    function delRegion(id){
+        $("#id").val("");
+        $("#id").val(id);
+    }
+    $("#deleteBtn").click(function(){
+        var id= $("#id").val();
+        console.log(id);
+        var result=addData(url2+"userRegion/selectRegionCount",{id:id});
+        console.log(result);
+        if(result!=null&&result.flag){
+            var result=addData(url2+"region/deleteRegion",{id:id});
+            if(result.flag){
+                $("#deleteBtn").attr("disabled","disabled");
+                is_show("#cg","删除成功~",false);
+            }
+        }else{
+            is_show("#ts","该区域有其他管理者，不能删除~",true);
+        }
+    })
+
+
+</script>
+</abbr>
+</body>
+
+</html>

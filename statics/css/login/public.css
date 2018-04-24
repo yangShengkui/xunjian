@@ -1,0 +1,112 @@
+::-webkit-scrollbar {
+	width: 0.1px;
+}
+/*给标题加字体颜色*/
+
+.logo_title {
+	font-size: 2rem;
+	color: #ffffff;
+}
+/*给table加字体颜色*/
+
+.panel {
+	color: #333333;
+}
+
+.modal-body {
+	color: #333333;
+}
+
+.reminder-info {
+	position: absolute;
+	bottom: 20px;
+	left: 40px;
+	font-size: 18px;
+	color: red;
+}
+/*提示框样式*/
+.alert{
+    text-align: center;
+    width:310px;
+    height:200px;
+    position:absolute;
+    top:-40%;
+    left:50%;
+    z-index: 999999;
+    margin: -101px 0 0 -151px;
+}
+.alert h2{
+    height:40px;
+    padding-left:8px;
+    font-size:14px;
+    background:#FF0543;
+    text-align:left;
+    line-height:40px;
+    margin-bottom: 0px;
+}
+.alert .alert_con{
+  background:#fff;
+  height:160px;
+}
+.alert .alert_con p{
+  color:#000;
+  line-height:90px;
+}
+.alert .alert_con .btn{
+  padding:3px 10px;
+  color:#fff;
+  cursor:pointer;
+  background:#72D1FF;
+  border:1px solid #72D1FF;
+  border-radius:4px;
+}
+.alert .alert_con .btn:hover{
+  background:#4FB2EF;
+  border:1px solid #4FB2EF;
+  border-radius:4px;
+}
+
+/*表报查询样式*/
+.FindContainer {
+    width: 90%;
+    height: auto;
+}
+.inp-md {
+    width: 10%;
+    height: 30px;
+    text-align: left;
+    padding-left: 18px;
+    border-radius: 4px;
+    font-size: 1em;
+    background-color: #ffffff;
+    box-shadow: none;
+    border: 1px solid #ccc;
+}
+.btn-md {
+    margin-left: 10px;
+    border-radius: 4px;
+}
+
+/*去掉input选中默认颜色*/
+input {
+    outline:none;
+}
+select {
+    outline:none;
+}
+path {
+    display: none;
+}
+.imgs {
+    position: absolute;
+    z-index: 9999;
+    width: 700px;
+    overflow: scroll;
+    display: block;
+}
+.imgs .imgAll {
+    width: 200px;
+    height: 280px;
+    margin-right: 20px;
+    float: left !important;
+}

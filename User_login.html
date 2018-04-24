@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+ 
+
+    <head>
+
+        <meta charset="utf-8">
+        <title>Login</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+        <!-- CSS -->
+        <link rel="stylesheet" href="../../statics/css/login/reset.css">
+        <link rel="stylesheet" href="../../statics/css/login/supersized.css">
+        <link rel="stylesheet" href="../../statics/css/login/style.css">
+        <script src="../../statics/assets/javascripts/jquery.min.js"></script>
+        <script src="../../statics/js/login/supersized.3.2.7.min.js"></script>
+        <script src="../../statics/js/login/supersized-init.js"></script>
+        <script src="../../statics/js/public.js"></script>
+        <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+        <!--[if lt IE 9]>
+        <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+
+    </head>
+    
+
+    <body oncontextmenu="return false" onkeydown="keyLogin();">
+
+        <div class="page-container">
+            <h1>登录</h1>
+            <form id="loginForm" action="" method="post" novalidate="novalidate">
+				<div>
+					<input type="text" id="username" name="username" class="name" placeholder="请输入您的用户名" autocomplete="off" maxlength="11"  />
+				</div>
+                <div>
+					<input type="text" onfocus="this.type='password'" id="password" name="password" class="password" placeholder="请输入您的密码" autocomplete="off" oncontextmenu="return false" />
+                </div>
+                <button id="login" type="button" style="width:40%;margin-right: 20px">登录</button>
+                <button id="register" type="button" style=";width:40%;background-color: #0cab95">注册</button>
+            </form>
+            <div class="connect">
+				<p style="margin-top:20px;">如果只是遇见，不能停留，不如不遇见。</p>
+            </div>
+        </div>
+        <!--提示信息-->
+        <input id="message" hidden="hidden" value="">
+        <div class="alert ts" style="display:none">
+            <h2>消息</h2>
+            <div class="alert_con">
+                <p id="ts"></p>
+                <p style="line-height:70px"><a class="btn" id="sure">确定</a></p>
+            </div>
+        </div>
+
+        <!-- Javascript -->
+
+		<script>
+
+        //提示信息确定
+        $("#sure").click(function(){
+            is_hide();
+        })
+
+		$("#login").click(function(){
+			if($("#name").val() == ''){
+                is_show("#ts","请输入您的用户名",true);
+				return;
+			}else if($("#password").val() =='') {
+                is_show("#ts","请输入您的密码",true);
+                return;
+            }
+            var result=showHtml(url2 + "user/checkLogin", $("#loginForm").serializeJson());
+			if(result!=null&&result.flag){
+                window.location.href = '../../ManageIndex.html';
+            }else{
+                is_show("#ts","用户名或密码错误，请重新输入",true);
+            }
+		});
+		window.onload = function()
+		{
+
+            $("#name").val('');
+		    $("#password").val('');
+			$(".connect p").eq(0).animate({"left":"0%"}, 600);
+		};
+
+		$("#register").click(function(){
+            window.location.href = 'User_register.html';
+        })
+
+		//回车登录
+		function keyLogin(){ 
+	    if (event.keyCode==13)  //回车键的键值为13 
+	       $("#login").click(); //调用登录按钮的登录事件
+	    }
+
+        //禁用页面后退
+        history.pushState(null, null, document.URL);
+        window.addEventListener('popstate', function () {
+            history.pushState(null, null, document.URL);
+        });
+
+
+
+        //接收登录异常提醒
+        var info = location.search;
+        if(info == '' || info == null){
+
+        }else{
+            var name = info.substring(6);
+            if(name == 1){
+                is_show("#ts","请重新登录",true);
+            }else if(name == 2) {
+                is_show("#ts","登录异常,请联系管理员",true);
+            }
+        }
+
+
+		</script>
+    </body>
+
+</html>
+

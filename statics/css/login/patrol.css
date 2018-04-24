@@ -1,0 +1,443 @@
+/*巡检*/
+.patrol {
+	width: 15rem;
+}
+/*导航条*/
+.top-bar {
+	width: 100%;
+	height: 0.8rem;
+	background-color: #0b9a86;
+}
+.patrol-top {
+	position: relative;
+	width: 100%;
+	height: 1.76rem;
+	line-height: 1.76rem;
+	text-align: center;
+	background-color: #0cab95;
+}
+.top-seat {
+	position: absolute;
+	top: 0rem;
+	left: 0rem;
+}
+.top-seat-img {
+	vertical-align: top;
+	width: 0.38rem;
+	height: 0.58rem;
+	margin: 0.6rem 0.2rem 0.54rem 0.5rem; 
+}
+.top-seat-word {
+	font-size: 0.56rem;
+	color: #ffffff;
+}
+.top-title {
+	font-size: 0.68rem;
+	color: #ffffff;
+}
+
+/*图片区域*/
+.picture-area {
+	width: 14.4rem;
+	height: 5.8rem;
+	margin: 0.14rem 0.3rem 0.96rem 0.3rem;
+	border: 0.02rem solid #6bbeae;
+	border-radius: 0.4rem;
+}
+.picture-area img{
+	width: 14.4rem;
+	height: 5.8rem;
+	border-radius: 0.4rem;
+}
+
+/*选择异常*/
+.choose-pass {
+	position: relative;
+	width: 13rem;
+	height: 1.4rem;
+	margin-left: 1rem;
+	margin-bottom: 0.5rem;
+	border-radius: 0.2rem;
+}
+.choose-pass-l {
+	float: left;
+	width: 4rem;
+	height: 1.38rem;
+	border-right: 0.02rem solid #bec0bf;
+	border-top-left-radius: 0.2rem;
+	border-bottom-left-radius: 0.2rem;
+	background-color: #b4eee6;
+}
+.pass-icon {
+	position: absolute;
+	top: 0.4rem;
+	left: 0.32rem;
+	background: url(../../img/login/pass-icon.png) no-repeat;
+	width: 0.6rem;
+	height: 0.6rem;
+	background-size: 100% 100%;
+}
+.choose-pass-title {
+	position: absolute;
+	top: 0.3rem;
+	left: 1.1rem;
+	font-size: 0.6rem;
+	color: #333333;
+}
+.choose-pass-r {
+	position: absolute;
+	top: 0rem;
+	left: 4.4rem;
+	float: left;
+	border-radius: 0.2rem;
+}
+.choose-pass-r button:first-child {
+	border-top-left-radius: 0.2rem;
+	border-bottom-left-radius: 0.2rem;
+}
+.choose-pass-r button:nth-child(2) {
+	border-top-right-radius: 0.2rem;
+	border-bottom-right-radius: 0.2rem;
+}
+.pass-btn {
+	float: left;
+	width: 2.6rem;
+	height: 1.38rem;
+	line-height: 0.46;
+	font-size: 0.55rem;
+	color: #999999;
+	background-color: #e3e5e4;
+}
+.pass-btn-active {
+	color: #ffffff;
+	background-color: #0cab95;
+}
+
+/*添加照片*/
+.add-picture {
+	position: relative;
+	width: 13rem;
+	margin-left: 1rem;
+	margin-bottom: 0.76rem;
+	border-radius: 0.2rem;
+}
+.add-picture-title {
+	position: relative;
+	width: 13rem;
+	height: 1.4rem;
+	border-top-left-radius: 0.2rem;
+	border-top-right-radius: 0.2rem;
+	background-color: #b4eee6;
+}
+.picture-icon {
+	position: absolute;
+	top: 0.4rem;
+	left: 0.32rem;
+	background: url(../../img/login/picture-icon.png) no-repeat;
+	width: 0.6rem;
+	height: 0.6rem;
+	background-size: 100% 100%;
+}
+
+.add-picture-show {
+	padding: 0.3rem 0.08rem 0.3rem 1rem;
+	border-bottom-left-radius: 0.2rem;
+	border-bottom-right-radius: 0.2rem;
+	border: 0.02rem solid #bec0bf;
+	background-color: #f5f5f5;
+}
+.add-picture-ul {
+	width: 100%;
+	height: 4rem;
+	overflow-y: scroll;
+}
+.add-picture-li {
+	float: left;
+	width: 2.6rem;
+	height: 3.4rem;
+	border-radius: 0.3rem;
+	margin-right: 0.36rem;
+	margin-bottom: 0.3rem;
+}
+.add-picture-img {
+	width: 2.6rem;
+	height: 3.4rem;
+	border-radius: 0.3rem;
+}
+.add-picture-show li:nth-child(4n+4) {
+	margin-right: -0.2rem;
+}
+
+
+/*选择原因*/
+.reason-icon {
+	position: absolute;
+	top: 0.4rem;
+	left: 0.32rem;
+	background: url(../../img/login/reason-icon.png) no-repeat;
+	width: 0.5rem;
+	height: 0.5rem;
+	background-size: 100% 100%;
+}
+.choose-pass-ri {
+	position: relative;
+	width: 8.6rem;
+	height: 1.4rem;
+	border-radius: 0.3rem;
+	box-sizing: border-box;
+	margin-left: 3.6rem;
+}
+.choose-pass-ri-ts {
+	position: relative;
+	width: 6.3rem;
+	height: 1.4rem;
+	border-radius: 0.3rem;
+	box-sizing: border-box;
+	margin-left: 6.2rem;
+}
+.choose-pass-inp {
+	position: absolute;
+	top: 0rem;
+	left: 0rem;
+	width: 9.3rem;
+	height: 1.4rem;
+	line-height: 1.4rem;
+	font-size: 0.55rem;
+	padding-left: 0.44rem;
+	border-top-right-radius: 0.3rem;
+	border-bottom-right-radius: 0.3rem;
+	box-sizing: border-box;
+	border: 0.02rem solid #c0c0c0;
+	background-color: #ffffff;
+}
+.choose-pass-sel {
+	position: absolute;
+	top: 0rem;
+	left: 0rem;
+	width: 9.3rem;
+	height: 1.4rem;
+	border: none;
+	font-size: 0.55rem;
+	text-indent: 0.44rem;
+	border-top-right-radius: 0.3rem;
+	border-bottom-right-radius: 0.3rem;
+	box-sizing: border-box;
+	border: 0.02rem solid #c0c0c0;
+	background-color: #ffffff;
+}
+.choose-pass-sel option:first-child {
+	color: #999999 !important;
+}
+
+/*姓名*/
+.names-icon {
+	position: absolute;
+	top: 0.4rem;
+	left: 0.32rem;
+	background: url(../../img/login/names-icon.png) no-repeat;
+	width: 0.6rem;
+	height: 0.6rem;
+	background-size: 100% 100%;
+}
+
+/*手机号*/
+.telphones-icon {
+	position: absolute;
+	top: 0.4rem;
+	left: 0.32rem;
+	background: url(../../img/login/telphones-icon.png) no-repeat;
+	width: 0.6rem;
+	height: 0.6rem;
+	background-size: 100% 100%;
+}
+
+/*提交*/
+.bottom-submit {
+	padding-top: 0.5rem;
+	text-align: center;
+}
+.submit-btn {
+	width: 9rem;
+	height: 1.4rem;
+	line-height: 0.48rem;
+	text-align: center;
+	border-radius: 0.3rem;
+	font-size: 0.6rem;
+	color: #ffffff;
+	background-color: #0cab95;
+}
+
+
+/* 设置placeholder颜色兼容 */
+input::-webkit-input-placeholder{
+	font-size: 0.55rem;
+    color:#999999;
+}
+input::-moz-placeholder{   /* Mozilla Firefox 19+ */
+	font-size: 0.55rem;
+    color:#999999;
+}
+input:-moz-placeholder{    /* Mozilla Firefox 4 to 18 */
+	font-size: 0.55rem;
+    color:#999999;
+}
+input:-ms-input-placeholder{  /* Internet Explorer 10-11 */ 
+	font-size: 0.55rem;
+    color:#999999;
+}	
+input {
+	outline:none;
+	background:#f6f6f6;
+	border:none;
+	outline:medium;
+}
+
+select {
+	outline:none;
+	background:#f6f6f6;
+	border:none;
+	outline:medium;
+}
+
+button {
+	outline:none;
+	background:#f6f6f6;
+	border:none;
+	outline:medium;
+}
+
+/* 去掉select右边三角 */
+select {
+	appearance:none;
+	-moz-appearance:none;
+	-webkit-appearance:none;
+	background: url(../../img/login/arrow-down-icon.png) no-repeat;
+	width: 0.8rem;
+	height: 0.8rem;
+	background-size: 0.8rem 0.8rem;
+	background-position: 8rem 0.24rem;
+}
+
+
+/*涂鸦*/
+.save-btn {
+	display: none;
+	position: absolute;
+	bottom: 1.6rem;
+	right: 6.5rem;
+	z-index: 9999;
+	width: 2rem;
+	height: 1.4rem;
+	line-height: 0.48rem;
+	text-align: center;
+	border-radius: 0.3rem;
+	font-size: 0.48rem;
+	color: #ffffff;
+	background-color: #0cab95;
+}
+
+
+/* =====================================================
+   开关按钮样式
+   ===================================================== */
+.toggle {
+	position: absolute;
+	top: 0rem;
+	left: 0rem;
+	width: 4rem;
+	height: 1.4rem;
+	display: block;
+	text-align: left;
+	user-select: none;
+}
+.toggle--checkbox {
+	display: none;
+}
+.toggle--btn {
+	display: block;
+	margin: 0 auto;
+	font-size: 0.5rem;
+	color: #333333;
+	transition: all 350ms ease-in;
+}
+.toggle--btn:hover {
+	cursor: pointer;
+}
+
+.toggle--btn, .toggle--btn:before, .toggle--btn:after,
+.toggle--checkbox,
+.toggle--checkbox:before,
+.toggle--checkbox:after,
+.toggle--feature,
+.toggle--feature:before,
+.toggle--feature:after {
+	transition: all 250ms ease-in;
+}
+.toggle--btn:before, .toggle--btn:after,
+.toggle--checkbox:before,
+.toggle--checkbox:after,
+.toggle--feature:before,
+.toggle--feature:after {
+	content: '';
+	display: block;
+}
+
+/* =====================================================
+   Toggle - knob button style
+   ===================================================== */
+.toggle--knob .toggle--btn {
+	position: relative;
+	width: 4rem;
+	height: 1.4rem;
+	color: #999999;
+	border-right: 0.04rem solid #bec0bf;
+	border-top-left-radius: 0.2rem;
+	border-bottom-left-radius: 0.2rem;
+	background: #e3e5e4;
+}
+.toggle--knob .toggle--btn:before {
+	display: block;
+	position: absolute;
+	top: 50%;
+	left: 56%;
+	transform: translateY(-50%);
+	width: 1.5rem;
+	height: 1.4rem;
+	background-color: #0cab95;
+	background-size: 5px 5px;
+	border-top-left-radius: 0.2rem;
+	border-bottom-left-radius: 0.2rem;
+	text-indent: -100%;
+}
+.toggle--knob .toggle--feature {
+	position: relative;
+	display: block;
+	overflow: hidden;
+	height: 1.4rem;
+	line-height: 1.4rem;
+}
+.toggle--knob .toggle--feature:before, .toggle--knob .toggle--feature:after {
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+}
+.toggle--knob .toggle--feature:before {
+	content: attr(data-label-on);
+	left: 20%;
+}
+.toggle--knob .toggle--feature:after {
+	content: attr(data-label-off);
+	right: -60%;
+}
+.toggle--knob .toggle--checkbox:checked + .toggle--btn {
+	background: #e3e5e4;
+}
+.toggle--knob .toggle--checkbox:checked + .toggle--btn:before {
+	left: 0;
+}
+.toggle--knob .toggle--checkbox:checked + .toggle--btn .toggle--feature:before {
+	left: -60%;
+}
+.toggle--knob .toggle--checkbox:checked + .toggle--btn .toggle--feature:after {
+	right: 20%;
+}

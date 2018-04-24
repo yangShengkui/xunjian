@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+
+<html lang="en" id="html" class="fixed">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<title>后台管理</title>
+
+	<link rel="import" href="./statics/include-header.html">
+</head>
+<body style="overflow: hidden">
+<div class="wrap">
+	<div class="page-header">
+		<div class="leftside-header">
+			<div class="logo">
+				<a href="javascript:;" class="on-click">
+					<!--<img alt="logo" src="statics/assets/images/header-logo.png" />-->
+					<p class="logo_title">后台管理</p>
+				</a>
+			</div>
+			<div class="visible-xs toggle-left-sidebar" data-toggle-class="left-sidebar-open">
+				<i class="fa fa-bars" onclick="h5Menu()" aria-label="Toggle sidebar"></i>
+			</div>
+		</div>
+		<div class="rightside-header">
+
+
+			<div class="header-section" id="user-headerbox">
+				<div class="user-header-wrap">
+					<div class="user-photo">
+						<img src="./statics/assets/images/user-avatar.jpg" alt="Jane Doe" />
+					</div>
+					<div class="user-info">
+						<span class="user-name">管理员</span>
+						<span class="user-profile">Admin</span>
+					</div>
+					<i class="fa fa-plus icon-open" aria-hidden="true"></i>
+					<i class="fa fa-minus icon-close" aria-hidden="true"></i>
+				</div>
+				<div class="user-options dropdown-box">
+					<div class="drop-content basic">
+						<!--<ul>-->
+							<!--<li>-->
+								<!--<a href="pages_user-profile.html"><i class="fa fa-user" aria-hidden="true"></i> 简介</a>-->
+							<!--</li>-->
+							<!--<li>-->
+								<!--<a href="pages_lock-screen.html"><i class="fa fa-lock" aria-hidden="true"></i> 锁屏</a>-->
+							<!--</li>-->
+							<!--<li>-->
+								<!--<a href="#"><i class="fa fa-cog" aria-hidden="true"></i> 配置</a>-->
+							<!--</li>-->
+						<!--</ul>-->
+					</div>
+				</div>
+			</div>
+
+			<div class="header-separator"></div>
+			<div class="header-section">
+				<a onclick="LoginOut();"><i class="fa fa-sign-out log-out" aria-hidden="true"></i></a>
+			</div>
+		</div>
+	</div>
+
+	<div class="page-body">
+		<div class="left-sidebar">
+			<div class="left-sidebar-header">
+				<div class="left-sidebar-title">菜单</div>
+				<div class="left-sidebar-toggle c-hamburger c-hamburger--htla hidden-xs" data-toggle-class="left-sidebar-collapsed" data-target="html">
+					<span></span>
+				</div>
+			</div>
+
+			<div id="left-nav" class="nano">
+				<div class="nano-content ">
+					<nav>
+						<ul class="nav" id="main-nav">
+							<!--<li>
+								<a onclick="test()">demo</a>
+							</li>-->
+							<li>
+								<a onclick="showHtmlRight('./code/user/User_index.html')">管理员管理</a>
+							</li>
+							<li>
+								<a onclick="window.location.href=showHtmlRight('./code/manage/UserManage.html')">用户管理</a>
+							</li>
+							<li>
+								<a onclick="showHtmlRight('./code/region/region.html')">区域管理</a>
+							</li>
+							<li>
+								<a onclick="window.location.href=showHtmlRight('./code/manage/TypeManage.html')">类别管理</a>
+							</li>
+							<li>
+								<a onclick="window.location.href=showHtmlRight('./code/manage/DescribeManage.html')">描述管理</a>
+							</li>
+							<li>
+								<a onclick="window.location.href=showHtmlRight('./code/manage/TowCodeManage.html')">二维码管理</a>
+							</li>
+							<li>
+								<a onclick="window.location.href=showHtmlRight('./code/manage/Managetable.html')">巡检记录查询</a>
+							</li>
+							<li>
+								<a onclick="window.location.href=showHtmlRight('./code/manage/ManageAlltable.html')">巡检综合查询</a>
+							</li>
+						</ul>
+					</nav>
+				</div>
+			</div>
+		</div>
+
+		<div  class="content">
+			<!--style="height:1080px;overflow-y:auto;::-webkit-scrollbar{width:1px;}"-->
+			<div id="rightContent"    >
+
+				<div  class="content-header">
+
+				</div>
+
+			</div>
+
+		</div>
+
+	</div>
+</div>
+<link rel="import" href="./statics/include-JS.html">
+
+<script type="text/javascript">
+
+	function test(){
+	    showHtmlRight("../manage/demo.html")
+
+	}
+
+
+    function h5Menu(){
+
+        if($("#html").attr("class")=="fixed")
+            $("#html").addClass("left-sidebar-open");
+        else
+            $("#html").removeClass("left-sidebar-open");
+    }
+
+    //退出登录
+    function LoginOut() {
+        var result = addData(url2+"user/outLogin","");
+        if(result!=null&&result.flag!=null){
+        	if(result.flag){
+                window.location.href='./code/user/User_login.html';
+			}
+		}
+	}
+
+
+</script>
+</body>
+</html>

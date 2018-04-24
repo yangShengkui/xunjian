@@ -1,0 +1,304 @@
+
+/*登录*/
+.xj-content {
+	width: 15rem;
+	height: 26.68rem;
+}
+.xj-top-bg {
+	position: relative;
+	width: 100%;
+	height: 9.2rem;
+}
+.xj-bg-icon {
+	position: absolute;
+	top: 0rem;
+	left: 0rem;
+	background: url(../../img/login/xj-bg-icon.png) no-repeat;
+	width: 15rem;
+	height: 9.2rem;
+	background-size: 100% 100%;
+}
+/*登录信息*/
+.xj-loginInfo {
+	position: relative;
+	z-index: 3;
+	margin-left: 0.55rem;
+	margin-top: -1.54rem;
+	width: 13.8rem;
+	padding-left: 1.44rem;
+	padding-top: 1.56rem;
+	padding-bottom: 1rem;
+	border-radius: 0.4rem;
+	background-color: #ffffff;
+	box-shadow: -0.05rem 0.15rem 0.15rem 0.2rem #e8f5fd
+}
+.loginInfo-group {
+	position: relative;
+	width: 11rem;
+	height: 1.52rem;
+	box-sizing: border-box;
+	border: 0.02rem solid #eeeeee;
+	border-radius: 0.3rem;
+	background-color: #f6f6f6;
+}
+.loginInfo-group-select {
+	position: relative;
+	width: 11rem;
+	height: 1.52rem;
+	background-color: #ffffff;
+}
+.telphone-icon {
+	position: absolute;
+	top: 0.4rem;
+	left: 0.6rem;
+	z-index: 4;
+	background: url(../../img/login/telphone-icon.png) no-repeat;
+	width: 0.56rem;
+	height: 0.84rem;
+	background-size: 100% 100%;
+}
+.password-icon {
+	position: absolute;
+	top: 0.36rem;
+	left: 0.6rem;
+	z-index: 4;
+	background: url(../../img/login/password-icon.png) no-repeat;
+	width: 0.58rem;
+	height: 0.8rem;
+	background-size: 100% 100%;
+}
+.loginInfo-line {
+	position: absolute;
+	top: 0.2rem;
+	left: 1.72rem;
+	z-index: 4;
+	width: 0.02rem;
+	height: 1.12rem;
+	background-color: #e5e5e5;
+}
+.loginInfo-input {
+	position: absolute;
+	top: 0rem;
+	left: 0rem;
+	width: 8.8rem;
+	height: 1.52rem;
+	font-size: 0.44rem;
+	color: #333333;
+	border: none;
+	border-radius: 0.3rem;
+	padding-left: 2.2rem;
+	background-color: #f6f6f6;
+}
+.registerInfo-input {
+	position: absolute;
+	top: 0rem;
+	left: 0rem;
+	width: 11rem;
+	height: 1.52rem;
+	font-size: 0.44rem;
+	color: #333333;
+	border: none;
+	border-radius: 0.3rem;
+	padding-left: 2.2rem;
+	background-color: #f6f6f6;
+}
+.loginInfo-select {
+	width: 11rem;
+}
+
+.mr-bottom {
+	margin-bottom: 0.92rem;
+}
+
+/*链接*/
+.link-fd {
+	margin-top: 0.48rem;
+	margin-bottom: 1.68rem;
+	width: 11rem;
+	height: 0.32rem;
+	height: 0.32rem;
+	line-height: 0.32rem;
+	font-size: 0.32rem;
+	color: #666666;
+}
+.link-fd-fl {
+	float: left;
+}
+.link-fd-fr {
+	float: right;
+}
+/*底部登录*/
+.login-btn {
+	margin-left: 0.6rem;
+	width: 9.8rem;
+	height: 1.54rem;
+	line-height: 1.54rem;
+	text-align: center;
+	font-size: 0.46rem;
+	color: #ffffff;
+	border-radius: 0.3rem;
+	background-color: #0cab95;
+}
+.register-btn {
+	margin-left: 0.6rem;
+	width: 9.8rem;
+	height: 1.54rem;
+	line-height: 1.54rem;
+	text-align: center;
+	font-size: 0.46rem;
+	color: #ffffff;
+	border-radius: 0.3rem;
+	background-color: #0cab95;
+}
+/*第三方登录*/
+.third-bottom {
+	position: fixed;
+	bottom: 0rem;
+	left: 0rem;
+	width: 13.8rem;
+	margin-left: 0.6rem;
+	height: 3.6rem;
+}
+.third-title {
+	position: relative;
+	width: 13.8rem;
+	height: 0.44rem;
+	font-size: 0.44rem;
+	color: #999999;
+}
+.third-line-l {
+	position: absolute;
+	top: 0.2rem;
+	left: 0rem;
+	width: 5.5rem;
+	height: 0.04rem;
+	background-color: #d5d5d5;
+}
+.third-line-r {
+	position: absolute;
+	top: 0.2rem;
+	right: 0rem;
+	width: 5.5rem;
+	height: 0.04rem;
+	background-color: #d5d5d5;
+}
+.third-word {
+	text-align: center;
+}
+.third-icon {
+	position: relative;
+	width: 100%;
+	height: 3.12rem;
+}
+.third-icon-wx {
+	position: absolute;
+	top: 1rem;
+	left: 2.94rem;
+	width: 1.26rem;
+	height: 1.04rem;
+}
+.third-icon-qq {
+	position: absolute;
+	top: 0.94rem;
+	left: 6.16rem;
+	width: 1.26rem;
+	height: 1.04rem;
+}
+.third-icon-qq {
+	position: absolute;
+	top: 0.94rem;
+	left: 6.16rem;
+	width: 1.12rem;
+	height: 1.22rem;
+}
+.third-icon-wb {
+	position: absolute;
+	top: 1.06rem;
+	right: 3.06rem;
+	width: 1.18rem;
+	height: 0.98rem;
+}
+
+/*注册*/
+.zc-bg-icon {
+	position: absolute;
+	top: 0rem;
+	left: 0rem;
+	background: url(../../img/login/zc-bg-icon.png) no-repeat;
+	width: 15rem;
+	height: 9.2rem;
+	background-size: 100% 100%;
+}
+.xj-registerInfo {
+	position: relative;
+	z-index: 3;
+	margin-left: 0.55rem;
+	margin-top: -5rem;
+	width: 13.8rem;
+	padding-left: 1.44rem;
+	padding-top: 1.56rem;
+	padding-bottom: 1rem;
+	border-radius: 0.4rem;
+	background-color: #ffffff;
+	box-shadow: -0.05rem 0.15rem 0.15rem 0.2rem #fdeef3;
+}
+.name-icon {
+	position: absolute;
+	top: 0.4rem;
+	left: 0.48rem;
+	z-index: 4;
+	background: url(../../img/login/name-icon.png) no-repeat;
+	width: 0.8rem;
+	height: 0.74rem;
+	background-size: 100% 100%;
+}
+
+.region-icon {
+	position: absolute;
+	top: 0.38rem;
+	left: 0.64rem;
+	z-index: 4;
+	background: url(../../img/login/region-icon.png) no-repeat;
+	width: 0.54rem;
+	height: 0.8rem;
+	background-size: 100% 100%;
+}
+
+
+/* 设置placeholder颜色兼容 */
+input::-webkit-input-placeholder{
+	color:#999999;
+}
+input::-moz-placeholder{   /* Mozilla Firefox 19+ */
+	color:#999999;
+}
+input:-moz-placeholder{    /* Mozilla Firefox 4 to 18 */
+	color:#999999;
+}
+input:-ms-input-placeholder{  /* Internet Explorer 10-11 */
+	color:#999999;
+}
+
+/*去掉input选中默认颜色*/
+input {
+	outline:none;
+	background:#f6f6f6;
+	border:none;
+	outline:medium;
+}
+
+::selection{background:transparent; }
+::-moz-selection{background:transparent; }
+
+
+/* 去掉select右边三角 */
+select {
+	appearance:none;
+	-moz-appearance:none;
+	-webkit-appearance:none;
+	background: url(../../img/login/arrow-icon.png) no-repeat;
+	width: 0.52rem;
+	height: 0.28rem;
+	background-size: 0.52rem 0.28rem;
+	background-position: 10rem 0.72rem;
+}

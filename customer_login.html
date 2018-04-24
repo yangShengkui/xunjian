@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+ 
+
+    <head>
+
+        <meta charset="utf-8">
+        <title>用户登录</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+        <!-- CSS -->
+        <link rel="stylesheet" href="statics/css/login/reset.css">
+        <link rel="stylesheet" href="statics/css/login/supersized.css">
+        <link rel="stylesheet" href="statics/css/login/style.css">
+        <!-- JS -->
+		<script src="statics/assets/javascripts/jquery.min.js"></script>
+        <script src="statics/js/login/supersized.3.2.7.min.js"></script>
+        <script src="statics/js/login/supersized-init.js"></script>
+        <script src="statics/js/public.js"></script>
+        <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+        <!--[if lt IE 9]>
+            <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+
+    </head>
+    
+
+    <body oncontextmenu="return false" onkeydown="keyLogin();">
+
+        <div class="page-container">
+            <h1>登录</h1>
+            <form id="loginForm" action="" method="post" novalidate="novalidate">
+				<div>
+					<input type="text" name="phone" id="phone" class="phone" placeholder="Phone" autocomplete="off" maxlength="11" onkeyup="this.value=this.value.replace(/\D/g,'')" />
+				</div>
+                <div>
+					<input type="password" name="password" id="password" class="password" placeholder="Password" oncontextmenu="return false" />
+                </div>
+                
+                <button id="login" type="button">登录</button>
+                <!--<button id="register" type="button" style=";width:40%;background-color: #0cab95">注册</button>-->
+            </form>
+            <div class="connect">
+				<p style="margin-top:20px;">如果只是遇见，不能停留，不如不遇见。</p>
+            </div>
+        </div>
+        <input id="message" hidden="hidden" value=""><!--value="${message}"-->
+		<div class="alert" style="display:none">
+			<h2>消息</h2>
+			<div class="alert_con">
+				<p id="ts"></p>
+				<p style="line-height:70px"><a class="btn">确定</a></p>
+			</div>
+		</div>
+
+        <!-- Javascript -->
+		
+		<script type="text/javascript">
+		$(function(){ 
+			if($("#message").val()!=''){
+				$("#ts").html($("#message").val());
+				is_show();}
+			}); 
+		
+
+		$(".btn").click(function(){
+			is_hide();
+		});
+
+
+		$("#login").click(function(){
+			if($("#phone").val() == '' || $("#password").val() ==''){
+				$("#ts").html("手机号或密码不能为空~");
+				is_show();
+				return false;
+			}else{
+				var result=showHtml(url2 + "customer/loginCheck", $("#loginForm").serializeJson());
+	            console.log($("#loginForm").serializeJson());
+				if(result.flag){
+	                window.location.href = 'code/manage/Managetable.html';
+	            }else{
+	                $("#ts").html("手机号或密码错误，请重新输入");
+	                is_show();
+	            }
+			}
+            
+		});
+		window.onload = function()
+		{
+			$(".connect p").eq(0).animate({"left":"0%"}, 600);
+		};
+		function is_hide(){ $(".alert").animate({"top":"-40%"}, 300); };
+		function is_show(){ $(".alert").show().animate({"top":"45%"}, 300); };
+		
+
+		//回车登录
+		function keyLogin(){ 
+	    if (event.keyCode==13)  //回车键的键值为13 
+	       $("#submit").click(); //调用登录按钮的登录事件 
+	    } 
+		
+		</script>
+    </body>
+
+</html>
+

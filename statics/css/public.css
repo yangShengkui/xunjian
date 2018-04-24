@@ -1,0 +1,29 @@
+::-webkit-scrollbar {
+    width: 0.1px;
+}
+/*给标题加字体颜色*/
+
+.logo_title {
+    font-size: 2rem;
+    color: #ffffff;
+}
+
+/*td超出隐藏hover显示全部*/
+.icoFontlist:hover{
+    width: 120px;
+    border: 0px solid #ddd;
+    overflow: hidden;
+    text-align: left;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-decoration:underline;
+    cursor:pointer;
+}
+.icoFontlist{
+    width: 120px;
+    border: 0px solid #ddd;
+    overflow: hidden;
+    text-align: left;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}

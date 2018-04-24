@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <link rel="stylesheet" href="../statics/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../statics/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../statics/assets/stylesheets/css/style.css">
+    <link rel="stylesheet" href="../statics/assets/vendor/data-table/media/css/dataTables.bootstrap.min.css">
+    <link rel="stylesheet" href="../statics/assets/vendor/data-table/extensions/Responsive/css/responsive.bootstrap.min.css">
+    <link rel="stylesheet" href="../statics/css/multiple-select.css" />
+    <script src="../statics/assets/javascripts/jquery.min.js"></script>
+    <script src="../statics/assets/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../statics/js/public.js"></script>
+    <script src="../statics/js/multiple-select.js"></script>
+    <script src="../statics/assets/vendor/data-table/media/js/jquery.dataTables.min.js"></script>
+    <script src="../statics/assets/vendor/data-table/media/js/dataTables.bootstrap.min.js"></script>
+    <script src="../statics/assets/vendor/data-table/extensions/Responsive/js/dataTables.responsive.min.js"></script>
+    <script src="../statics/assets/vendor/data-table/extensions/Responsive/js/responsive.bootstrap.min.js"></script>
+    <script src="../statics/assets/javascripts/examples/tables/data-tables.js"></script>
+</head>
+<body>
+<abbr>
+    <div id="body1">
+
+        <button type="button" id="addDiv" class="btn btn-wide btn-primary" data-toggle="modal" data-target="#md-modal">
+            人员添加
+        </button>
+        <div class="modal fade" id="error-modal" tabindex="-1" role="dialog" aria-labelledby="modal-error-label">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header state modal-danger">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="modal-error-label"><i class="fa fa-warning"></i>删除用户</h4>
+                    </div>
+                    <div class="modal-body">
+                        请您确定要删除此数据吗？
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="delUser()">确定</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br/>
+
+        <!--添加-->
+        <div class="modal fade " id="md-modal" tabindex="-1" role="dialog" aria-labelledby="modal-default-label">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header state modal-primary">
+
+                        <h4 class="modal-title" id="modal-default-label">用户信息</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="col-md-12">
+                            <div class="panel">
+                                <div class="panel-content">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <form id="Addform" class="form-horizontal form-stripe">
+                                                <h6 class="mb-xlg text-center"><b>创建用户</b></h6>
+                                                <div class="form-group">
+                                                    <label for="name" class="col-sm-2 control-label">姓名</label>
+                                                    <div class="col-sm-10">
+                                                        <input type="text" class="form-control" name="name" id="name" placeholder="Name" autocomplete="off">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="phone" class="col-sm-2 control-label">电话</label>
+                                                    <div class="col-sm-10">
+                                                        <input type="text" class="form-control" name="phone" id="phone"  placeholder="phone" autocomplete="off" maxlength="11" onkeyup="this.value=this.value.replace(/\D/g,"")">
+                                                        <input type="hidden" name="id">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="password3" class="col-sm-2 control-label">密码</label>
+                                                    <div class="col-sm-10">
+                                                        <input type="text" onfocus="this.type='password'" class="form-control" name="password" id="password"  placeholder="Password" autocomplete="off">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="password3" class="col-sm-2 control-label"></label>
+                                                    <div class="col-sm-10">
+                                                        <div class="btn-group" id="addRadio" data-toggle="buttons">
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="password3" class="col-sm-2 control-label">管辖区域</label>
+                                                    <div class="col-sm-10">
+                                                        <select id="select-xz" multiple="multiple" name="regionIds">
+                                                            <!--<option value="1">January</option>
+                                                        <option value="1">January</option>
+                                                        <option value="1">January</option>-->
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <input id="message" hidden="hidden" value="">
+                    <div class="modal-footer">
+                        <div class="reminder-info"></div>
+                        <button type="button" class="btn btn-primary"  id="AddUserSure">确定</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!--修改-->
+        <div class="modal fade " id="xg-modal" tabindex="-1" role="dialog" aria-labelledby="modal-default-label">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header state modal-primary">
+                        <h4 class="modal-title" >用户信息</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="col-md-12">
+                            <div class="panel">
+                                <div class="panel-content">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <form id="Updateform" class="form-horizontal form-stripe">
+                                                <h6 class="mb-xlg text-center"><b>修改用户</b></h6>
+                                                <div class="form-group">
+                                                    <label for="name" class="col-sm-2 control-label">姓名</label>
+                                                    <div class="col-sm-10">
+                                                        <input type="text" class="form-control" id="name-xg" name="name" placeholder="Name" autocomplete="off">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="" class="col-sm-2 control-label">旧密码</label>
+                                                    <div class="col-sm-10">
+                                                        <input type="text"  class="form-control" name="oldPassword"  placeholder="oldPassword" autocomplete="off">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="" class="col-sm-2 control-label">新密码</label>
+                                                    <div class="col-sm-10">
+                                                        <input type="text"  class="form-control" name="newPassword"  placeholder="newPassword" autocomplete="off">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="" class="col-sm-2 control-label"></label>
+                                                    <div class="col-sm-10">
+                                                        <div class="btn-group" id="updateRadio" data-toggle="buttons">
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="password3" class="col-sm-2 control-label">管辖区域</label>
+                                                    <div class="col-sm-10">
+                                                        <select id="select-xg" multiple="multiple" name="regionIds">
+
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <input id="xgmessage" hidden="hidden" value="">
+                    <div class="modal-footer">
+                        <div class="reminder-info"></div>
+                        <button type="button" class="btn btn-primary" >确定</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-12 mt-md  mb-lg ">
+            <div class="panel">
+                <div class="panel-content">
+
+                    <table id="sqz" class="data-table table table-striped table-hover responsive nowrap" cellspacing="0" width="100%">
+
+                        <thead>
+                        <tr>
+                            <th name="id">ID</th>
+                            <th name="name">姓名</th>
+                            <th name="descr">描述</th>
+                            <th name="url">url</th>
+                            <th name="cz">操作</th>
+                        </tr>
+                        </thead>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <script type="text/javascript">
+
+            $(function() {
+                var result=showHtml(url1+"/areatype/getAreatypeList","");
+                console.log(result.patroltypeList);
+
+                for(var p in result.patroltypeList){//遍历json数组时，这么写p为索引，0,1
+
+                    result.patroltypeList[p].url="<img src="+result.patroltypeList[p].url+">";
+                    result.patroltypeList[p].cz='<button class="btn btn-wide btn-o btn-info"  data-toggle="modal"   data-target="#xg-modal" onclick="upUser('+result.patroltypeList[p].id+')">修改</button>'+
+                        '<button class="btn btn-wide btn-o btn-danger" data-toggle="modal"   data-target="#error-modal" onclick="setdel('+result.patroltypeList[p].id+'})" >删除</button>';;
+                }
+
+
+                ShowDataTable("sqz",result.patroltypeList,"id");
+
+            });
+
+
+        </script>
+</abbr>
+</body>
+</html>

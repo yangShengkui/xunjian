@@ -1,0 +1,426 @@
+<!doctype html>
+<html lang="en" id="html" class="fixed">
+
+	<head>
+		<title>二维码管理</title>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+		<link rel="import" href="../../statics/include-header.html">
+		<link rel="import" href="../../statics/include-JS.html">
+
+	</head>
+
+	<body>
+	<abbr>
+
+		<div id="body1">
+			<button type="button" id="addDiv" class="btn btn-wide btn-primary" data-toggle="modal" data-target="#md-modal" >
+				二维码添加
+				</button>
+			<div class="modal fade" id="error-modal" tabindex="-1" role="dialog" aria-labelledby="modal-error-label">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header state modal-danger">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+							<h4 class="modal-title" id="modal-error-label"><i class="fa fa-warning"></i>删除二维码</h4>
+						</div>
+						<div class="modal-body">
+							请您确定要删除此数据吗？
+						</div>
+						<div class="modal-footer">
+							<input type="hidden" id="idDelete" />
+							<button type="button" class="btn btn-danger" data-dismiss="modal" onclick="delSubmit()">确定</button>
+							<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<br/>
+
+			<!--添加-->
+			<div class="modal fade " id="md-modal" tabindex="-1" role="dialog" aria-labelledby="modal-default-label">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header state modal-primary">
+
+							<h4 class="modal-title" id="modal-default-label">二维码信息</h4>
+						</div>
+						<div class="modal-body">
+							<div class="col-md-12">
+								<div class="panel">
+									<div class="panel-content">
+										<div class="row">
+											<div class="col-sm-12">
+												<form id="Addform" class="form-horizontal form-stripe" autocomplete="off" >
+													<h6 class="mb-xlg text-center"><b>添加二维码</b></h6>
+													<div class="form-group">
+														<label class="col-sm-2 control-label">区域</label>
+														<div class="col-sm-10">
+															<div class="btn-group" id="addRadio" data-toggle="buttons">
+
+															</div>
+														</div>
+													</div>
+													<div class="form-group">
+														<label class="col-sm-2 control-label">管辖区域</label>
+														<div class="col-sm-10">
+															<select class="form-control" id="select-xz-create" name="region_id">
+															</select>
+														</div>
+													</div>
+													<div class="form-group">
+														<label class="col-sm-2 control-label">类别</label>
+														<div class="col-sm-10">
+															<select class="form-control" id="select-type-create" name="patroltype_id">
+															</select>
+														</div>
+													</div>
+													<div class="form-group">
+														<label class="col-sm-2 control-label">描述</label>
+														<div class="col-sm-10">
+															<textarea class="form-control" id="describe" name="descr" placeholder="请输入您的描述"></textarea>
+														</div>
+													</div>
+													<div class="form-group">
+														<label class="col-sm-2 control-label">备注</label>
+														<div class="col-sm-10">
+															<input type="text" class="form-control" name="Remark" id="remark" placeholder="请输入您的备注" />
+														</div>
+													</div>
+													<div class="form-group">
+														<label class="col-sm-2 control-label">URL</label>
+														<div class="col-sm-10">
+															<input type="text" class="form-control" id="path" name="path" placeholder="请输入您的路径" />
+														</div>
+													</div>
+												</form>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<input id="info" hidden="hidden" value="">
+						<div class="modal-footer">
+							<div class="reminder-info"></div>
+							<button type="button" class="btn btn-primary"  id="AddTowCode" onclick="AddTowCode()">生成二维码</button>
+							<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+			<!--修改-->
+			<div class="modal fade " id="xg-modal" tabindex="-1" role="dialog" aria-labelledby="modal-default-label">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header state modal-primary">
+							<h4 class="modal-title" >二维码信息</h4>
+						</div>
+						<div class="modal-body">
+							<div class="col-md-12">
+								<div class="panel">
+									<div class="panel-content">
+										<div class="row">
+											<div class="col-sm-12">
+												<form id="Updateform" class="form-horizontal form-stripe">
+													<h6 class="mb-xlg text-center"><b>修改二维码</b></h6>
+													<input type="hidden" name="id" />
+													<div class="form-group">
+														<label  class="col-sm-2 control-label">区域</label>
+														<div class="col-sm-10">
+															<div class="btn-group" id="updateRadio"  data-toggle="buttons">
+
+															</div>
+														</div>
+													</div>
+													<div class="form-group">
+														<label class="col-sm-2 control-label">管辖区域</label>
+														<div class="col-sm-10">
+															<select class="form-control" id="select-xz-update" name="region_id">
+															</select>
+														</div>
+													</div>
+													<div class="form-group">
+														<label  class="col-sm-2 control-label">类别</label>
+														<div class="col-sm-10">
+															<select class="form-control" id="select-type-update" name="patroltype_id">
+																<option value=""></option>
+															</select>
+														</div>
+													</div>
+													<div class="form-group">
+														<label  class="col-sm-2 control-label">描述</label>
+														<div class="col-sm-10">
+															<textarea class="form-control" id="xg-descr" name="descr" placeholder="请输入您的描述"></textarea>
+														</div>
+													</div>
+													<input id="me" hidden="hidden" value="">
+													<div class="form-group">
+														<label class="col-sm-2 control-label">备注</label>
+														<div class="col-sm-10">
+															<input type="text" class="form-control" id="xg-remark" name="remark"  placeholder="请输入您的备注" />
+														</div>
+													</div>
+													<div class="form-group">
+														<label  class="col-sm-2 control-label">路径</label>
+														<div class="col-sm-10">
+															<input type="text" class="form-control" id="xg-path" name="path" placeholder="请输入您的路径" />
+														</div>
+													</div>
+												</form>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<input id="mess" hidden="hidden" value="">
+						<div class="modal-footer">
+							<div class="reminder-info"></div>
+							<button type="button" class="btn btn-primary" id="upDateTowCode" onclick="upDateSubmit();">确定</button>
+							<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-sm-12 mt-md  mb-lg">
+				<div class="panel">
+					<div class="panel-content">
+
+						<table id="sqz" class="data-table table table-striped table-hover responsive nowrap" cellspacing="0" width="100%">
+
+							<thead>
+								<tr>
+									<th name="id">类别</th>
+									<th name="parentName">总区域</th>
+									<th name="regionName">区域</th>
+									<th name="typeName">类型</th>
+									<th name="path">路径</th>
+									<th name="descr">描述</th>
+									<th name="remark">备注</th>
+									<th name="url">图片</th>
+									<th name="cz" style="width: 22%;">操作</th>
+								</tr>
+							</thead>
+						</table>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+		<div id="qrcodePrint" style="display:none;">
+			<img id="qrcodeImg" />
+		</div>
+
+		<!--提示信息-->
+		<input id="message" hidden="hidden" value="">
+		<div class="alert ts" style="display:none">
+			<h2>消息</h2>
+			<div class="alert_con">
+				<p id="ts"></p>
+				<p style="line-height:70px"><a class="btn" id="sure">确定</a></p>
+			</div>
+		</div>
+
+		<!-- 成功刷新-->
+		<input id="success" hidden="hidden" value="">
+		<div class="alert sx" style="display:none">
+			<h2>消息</h2>
+			<div class="alert_con">
+				<p id="cg"></p>
+				<p style="line-height:70px"><a class="btn" id="succ">确定</a></p>
+			</div>
+		</div>
+
+
+		<script type="text/javascript">
+
+
+            $(function() {
+                var result=showHtml(url1+"qrCode/getQrCodeListAll","");
+                console.log(result.qrList);
+                var data = result.qrList;
+                for(var p in data){//遍历json数组时，这么写p为索引，0,1
+
+                    data[p].cz='<button class="btn btn-wide btn-o btn-info"  data-toggle="modal"   data-target="#xg-modal" onclick="upTowCode('+JSON.stringify(data[p]).replace(/"/g, '&quot;')+')">修改</button>'+
+                        '<button class="btn btn-wide btn-o btn-danger" data-toggle="modal"   data-target="#error-modal" onclick="setdel('+data[p].id+')" >删除</button>'+
+                        '<button class="btn btn-wide btn-o btn-primary"  onclick="printHtml(\''+data[p].url+'\');" >打印二维码</button>';
+
+                    data[p].url='<a class="imgs" href="javascript:;"  onmouseover="lookImg('+data[p].id+',0);" onmouseout="lookImg('+data[p].id+',1);">' +'查看' +
+                        '<img class="imgs" id="imgs'+data[p].id+'" src="'+data[p].url+'" hidden="hidden" >'+
+                        '</a>';
+               }
+
+                ShowDataTable("sqz",data,"id");
+
+            });
+
+
+            //提示信息确定
+            $("#succ").click(function(){
+                showHtmlRight('./code/manage/TowCodeManage.html');
+            })
+            $("#sure").click(function(){
+                is_hide();
+            })
+
+            //添加，初始化数据
+            $("#addDiv").click(function(){
+                var parent="";
+                var type = "";
+                //清空表单
+                $("#Addform").clearfrom();
+                //单选框
+                $("#addRadio").html('');
+                var result=showHtml(url1+"qrCode/getRegionAndType","");
+
+                var datas = result.regionlevel;
+                for(var ids in datas) {
+					parent+= '<label class="btn btn-default '+(ids == 0?"active":"")+'" style="margin-right: 10px" onclick="choicePregionCreate('+JSON.stringify(datas[ids].pregion).replace(/"/g, '&quot;')+')" >'+
+								' <input type="radio" class="toggle" value="'+datas[ids].id+'" '+(ids == 0?"checked":"")+' >'+datas[ids].name+
+							 '</label>'
+                };
+
+                choicePregionCreate(datas[0].pregion);
+
+                var datatype = result.typeList;
+                for(var ids in datatype){
+                    type += '<option  value="'+datatype[ids].id+'"  >'+datatype[ids].name+'</option>';
+				};
+                $("#addRadio").html(parent);
+                $("#select-type-create").html(type);
+
+            })
+
+			//选择应显示的区域
+			function choicePregionCreate(data) {
+                var region = "";
+                for(var ids in data){
+                    region += '<option value="'+data[ids].id+'"  '+(ids ==0?"selected":"")+' >'+data[ids].name+'</option>';
+                }
+                $("#select-xz-create").html(region);
+            }
+
+
+            //添加
+            function AddTowCode() {
+                var describe = $("#describe").val();
+                var remark = $("#remark").val();
+                var path = $("#path").val();
+                if(describe == ''){
+                    is_show("#ts","请输入描述",true);
+                    return false;
+                }else if(remark == '') {
+                    is_show("#ts","请输入备注",true);
+                    return false;
+				}else if(path == '') {
+                    is_show("#ts","请输入路径",true);
+                    return false;
+				}
+                var result=showHtml(url1+"qrCode/setQrCode",$("#Addform").serializeJson());
+                if(result.flag){
+                    $("#AddTowCode").attr("disabled","disabled");
+                    is_show("#cg",result.message,false);
+                }else{
+                    is_show("#ts",result.message,true);
+				}
+            }
+
+
+            //修改
+            function upTowCode(data) {
+                console.log(data);
+                var parent="";
+                var type = "";
+                $("#Updateform").setForm(data);
+                var result=showHtml(url1+"qrCode/getRegionAndType","");
+                var datas = result.regionlevel;
+                var datatype = result.typeList;
+                for(var ids in datas) {
+                    parent+= '<label class="btn btn-default '+(datas[ids].id == data.parentId?"active":"")+'" style="margin-right: 10px" onclick="choicePregionUpdate('+JSON.stringify(datas[ids].pregion).replace(/"/g, '&quot;')+','+data.region_id+')" >'+
+                        ' <input type="radio" name="parent_id" class="toggle" value="'+datas[ids].id+'" '+(datas[ids].id == data.parentId?"checked":"")+' >'+datas[ids].name+
+                        '</label>';
+
+                    if(datas[ids].id == data.parentId) choicePregionUpdate(datas[ids].pregion,data.region_id);
+                };
+
+                for(var ids in datatype){
+                    type += '<option  value="'+datatype[ids].id+'"	'+(datatype[ids].id == data.patroltype_id?"selected":"")+'  >'+datatype[ids].name+'</option>';
+                };
+                $("#updateRadio").html(parent);
+                $("#select-type-update").html(type);
+            }
+
+            //选择应显示的区域-修改
+            function choicePregionUpdate(data,region_id) {
+                var region = "";
+                for(var ids in data){
+                    region += '<option value="'+data[ids].id+'"  '+(data[ids].id == region_id?"selected":"")+' >'+data[ids].name+'</option>';
+                }
+                $("#select-xz-update").html(region);
+            }
+
+			//提交修改
+            function upDateSubmit () {
+                var describe = $("#xg-descr").val();
+                var remark = $("#xg-remark").val();
+                var path = $("#xg-path").val();
+                if(describe == ''){
+                    is_show("#ts","描述不能为空",true);
+                    return false;
+                }else if(remark == '') {
+                    is_show("#ts","备注不能为空",true);
+                    return false;
+                }else if(path == '') {
+                    is_show("#ts","路径不能为空",true);
+                    return false;
+                }
+                var result = showHtml(url1+"qrCode/setQrCode",$("#Updateform").serializeJson());
+                console.log(result);
+                if(result.flag){
+                    $("#upDateTowCode").attr("disabled","disabled");
+                    is_show("#cg",result.message,false);
+                }else{
+                    is_show("#ts",result.message,true);
+                }
+            }
+
+            //删除
+            function setdel(id) {
+                $("#idDelete").val(id);
+            }
+
+            //提交删除
+            function delSubmit() {
+                var result = showHtml(url1+"qrCode/deleteQrCodeById/"+$("#idDelete").val(),"");
+                if(result.flag){
+                    is_show("#cg",result.message,false);
+                }else{
+                    is_show("#ts",result.message,true);
+                }
+            }
+
+            //打印二维码
+            function printHtml(url) {
+                $("#qrcodeImg").attr("src",url);
+                var bodyHtml = document.body.innerHTML;
+                document.body.innerHTML = $("#qrcodePrint").html();
+                window.print();
+                document.body.innerHTML = bodyHtml;
+            }
+
+            //图片预览
+            function lookImg(id,state){
+                if(state == 0) $("#imgs"+id).css({"display":"block","width":"300px","height":"300px","position":"absolute","zIndex":99999});
+                else		   $("#imgs"+id).css({"display":"none","width":"0px","height":"0px","position":"absolute","zIndex":99999});
+            }
+		</script>
+	</abbr>
+	</body>
+
+</html>

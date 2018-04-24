@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>注册</title>
+    <link rel="stylesheet" type="text/css" href="statics/css/login/reset.css"/>
+    <link rel="stylesheet" type="text/css" href="statics/css/multiple-select.css" />
+    <link rel="stylesheet" type="text/css" href="statics/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="statics/css/login/login.css"/>
+	<link rel="stylesheet" type="text/css" href="statics/css/login/public.css"/>
+    <script src="statics/assets/javascripts/jquery.min.js"></script>
+    <script src="statics/js/public.js"></script>
+    <script src="statics/js/multiple-select.js"></script>
+</head>
+<body onclick="keyRegister();">
+	
+	
+	<div class="xj-content">
+		
+		<!--头部背景-->
+		<div class="xj-top-bg">
+			<i class="zc-bg-icon"></i>
+		</div>
+		
+		<!--注册信息-->
+		<div class="xj-registerInfo">
+			<form id="registerForm" action="" method="post" novalidate="novalidate" autocomplete="off">
+				<div class="loginInfo-group mr-bottom">
+					<i class="name-icon"></i>
+					<i class="loginInfo-line"></i>
+					<input type="text" name="name" id="name" class="registerInfo-input" placeholder="姓名" />
+				</div>
+				<div class="loginInfo-group mr-bottom">
+					<i class="telphone-icon"></i>
+					<i class="loginInfo-line"></i>
+					<input type="text" name="phone" id="phone" class="registerInfo-input" placeholder="手机号" onkeyup="this.value=this.value.replace(/[^0-9-]+/,'');" maxlength="11"/>
+				</div>
+				<div class="loginInfo-group mr-bottom">
+					<i class="password-icon"></i>
+					<i class="loginInfo-line"></i>
+					<input type="text" onfocus="this.type='password'" name="password" id="password" class="registerInfo-input" placeholder="密&nbsp;&nbsp;码" />
+				</div>
+				<div class="loginInfo-group-select mr-bottom">
+					<div class="btn-group" id="addRadio" data-toggle="buttons">
+																			        
+					</div>
+				</div>
+				<div class="loginInfo-group-select">
+					<select name="regionIds" id="select-xz" class="loginInfo-select" placeholder="区域">
+						
+					</select>
+				</div>
+				<!--链接-->
+				<div class="link-fd">
+					<p class="link-fd-fl" onclick="window.location.href='login.html'">登录账号</p>
+				</div>
+				<!--注册-->
+				<div class="register-btn" id="register">注册</div>
+			</form>
+		</div>
+		
+		
+		<!--第三方登录-->
+		<div class="third-bottom">
+			<div class="third-title">
+				<i class="third-line-l"></i>
+				<p class="third-word">第三方登录</p>
+				<i class="third-line-r"></i>
+			</div>
+			<div class="third-icon">
+				<img class="third-icon-wx" src="statics/img/login/third-icon-wx.png"/>
+				<img class="third-icon-qq" src="statics/img/login/third-icon-qq.png"/>
+				<img class="third-icon-wb" src="statics/img/login/third-icon-wb.png"/>
+			</div>
+		</div>
+		
+		
+	</div>
+
+	<!--提示信息-->
+	<input id="message" hidden="hidden" value="">
+	<div class="alert ts" style="display:none">
+		<h2>消息</h2>
+		<div class="alert_con">
+			<p id="ts"></p>
+			<p style="line-height:70px"><a class="btn" id="sure">确定</a></p>
+		</div>
+	</div>
+
+	<!-- 成功刷新-->
+	<input id="success" hidden="hidden" value="">
+	<div class="alert sx" style="display:none">
+		<h2>消息</h2>
+		<div class="alert_con">
+			<p id="cg"></p>
+			<p style="line-height:70px"><a class="btn" id="succ">确定</a></p>
+		</div>
+	</div>
+	
+	
+</body>
+
+
+<script type="text/javascript">
+	
+	//屏幕适配
+	(function() {
+    var html = document.documentElement;
+    var width = html.getBoundingClientRect().width;
+    html.style.fontSize = width / 15 + 'px';
+    //至于除数15可自行设置
+    //1rem=50;
+	})()
+
+	//注册提交
+	$("#register").click(function(){
+
+		if($("#name").val() == '' || $("#phone").val() =='' || $("#password").val() ==''){
+            is_show("#ts","姓名、电话、密码不能为空",true);
+			return;
+		}else{
+			//验证手机号
+			var resultphone=addData(url2 + "customer/checkCustomer", {phone:$("#phone").val()});
+			if(resultphone!=null&&resultphone.flag){
+				var result=showHtml(url2 + "customer/addCustomer", $("#registerForm").serializeJson());
+				console.log(result);
+				if(result!=null&&result.flag){
+                    is_show("#cg","注册成功",false);
+				}
+			}else{
+                is_show("#ts","该手机号已注册",true);
+			}
+		}
+		
+	});
+
+
+	//区域选择初始化数据
+	$(function () {
+		
+		//单选框
+		$("#addRadio").html('');
+        var result=addData(url2+"region/selectRegionParent","");
+        var h="";
+        var datas = result.regionList;
+        for(var ids in datas) {
+            if(ids==0){
+                h+= '<label class="btn btn-default active" style="margin-right: 10px" >'+
+                    ' <input type="radio" name="parent_id" class="toggle" value="'+datas[ids].id+'" checked="checked">'+datas[ids].name+
+                    '</label>'
+            }else{
+                h+= '<label class="btn btn-default">'+
+                    ' <input type="radio" name="parent_id" class="toggle" value="'+datas[ids].id+'">'+datas[ids].name+
+                    '</label>'
+            }
+        };
+        $("#addRadio").html(h);
+		FindArea("#select-xz",$('#addRadio input:radio:checked').val());
+	})
+	
+	$("#addRadio").change(function(){
+		FindArea("#select-xz",$('#addRadio input:radio:checked').val())
+	})
+	
+	
+	//通过parent_id查询区域
+	function FindArea(reginId,paren_id) {
+		$(reginId).html("");
+		var result=addData(url2+"region/selectRegionByParentId",{id:paren_id});
+		var data = result.regionList;
+		var option;
+		for(var i = 0; i < data.length; i++) {
+			option += '<option value="' + data[i].id + '">' + data[i].name + '</option>';
+		}
+		$(reginId).html(option); //将内容显示在复选框， $(className).append(option) 也是可以的;
+		$(reginId).multipleSelect();
+		
+	}
+
+
+    //回车
+    function keyRegister(){
+        if (event.keyCode==13)  //回车键的键值为13
+            $("#register").click(); //调用登录按钮的登录事件
+    }
+
+    //禁用页面后退
+    history.pushState(null, null, document.URL);
+    window.addEventListener('popstate', function () {
+        history.pushState(null, null, document.URL);
+    });
+
+
+    //提示信息
+    $("#succ").click(function(){
+        window.location.href = './login.html';
+    })
+    $("#sure").click(function(){
+        is_hide();
+    })
+</script>
+</html>

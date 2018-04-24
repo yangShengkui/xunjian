@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<title>综合维修巡检</title>
+	<link rel="stylesheet" type="text/css" href="statics/css/login/reset.css"/>
+	<link rel="stylesheet" type="text/css" href="statics/css/login/patrol.css"/>
+	<link rel="Stylesheet" type="text/css" href="statics/inc/wColorPicker.css" />
+	<link rel="Stylesheet" type="text/css" href="statics/inc/wPaint.css" />
+	<link rel="Stylesheet" type="text/css" href="statics/css/login/public.css" />
+	<link rel="stylesheet" type="text/css" href="statics/assets/stylesheets/css/bootstrap.css"/>
+	<script type="text/javascript" src="statics/inc/jquery.2.0.0.min.js"></script>
+	<script type="text/javascript" src="statics/inc/jquery.ui.core.min.js"></script>
+	<script type="text/javascript" src="statics/inc/jquery.ui.widget.min.js"></script>
+	<script type="text/javascript" src="statics/inc/jquery.ui.mouse.min.js"></script>
+	<script type="text/javascript" src="statics/inc/jquery.ui.draggable.min.js"></script>
+	<script type="text/javascript" src="statics/inc/wColorPicker.js"></script>
+	<script type="text/javascript" src="statics/inc/wPaint.js"></script>
+	<script src="statics/js/public.js"></script>
+
+</head>
+<body>
+
+
+<div class="patrol" id="imgsDIV">
+	<form id="inspectionForm">
+		<!--标题-->
+		<div class="patrol-top">
+			<div class="top-seat">
+				<img class="top-seat-img" src="statics/img/login/seat-img.png" />
+				<span class="top-seat-word" id="titleName">津润</span>
+			</div>
+		</div>
+
+		<!--图片展示区域-->
+		<div class="picture-area">
+			<img src="statics/img/login/bg-patrol.jpg" />
+		</div>
+
+		<!--选择合格-->
+		<div class="choose-pass">
+			<div class="choose-pass-l">
+				<i class="pass-icon"></i>
+				<span class="choose-pass-title">是否异常</span>
+			</div>
+			<div class="choose-pass-r" id="WhetherQualified">
+				<button class="pass-btn pass-btn-active" type="button">是</button>
+				<button class="pass-btn" type="button">否</button>
+				<input type="hidden" name="normal" id="normal" value="0">
+			</div>
+		</div>
+
+		<!--添加图片-->
+		<div class="add-picture">
+			<div class="add-picture-title">
+				<i class="picture-icon"></i>
+				<span class="choose-pass-title">添加照片</span>
+			</div>
+			<div class="add-picture-show clearfix">
+				<ul class="add-picture-ul" id="imgContainer">
+					<li class="add-picture-li" id="imgBox" onclick="takePictureOnclick();">
+						<input id="takepicture" type="file" accept="image/*" capture="camera" style="display: none">
+						<img class="add-picture-img" id="img_1" src="statics/img/login/picture-imgs.png"/>
+					</li>
+				</ul>
+
+			</div>
+		</div>
+
+		<!--选择原因-->
+		<div class="choose-pass">
+
+			<div class="toggle toggle--knob">
+				<input type="checkbox" id="toggle--knob" onclick="checkClick(this)" class="toggle--checkbox">
+				<label class="toggle--btn" for="toggle--knob">
+					<span class="toggle--feature" data-label-on="选择"  data-label-off="输入"></span>
+				</label>
+			</div>
+
+			<div class="choose-pass-ri">
+				<select class="choose-pass-sel" name="descr" id="ReasonSelect">
+				</select>
+				<input type="hidden" class="choose-pass-sel" id="ReasonInput" placeholder="请输入异常">
+			</div>
+
+		</div>
+
+		<!--姓名-->
+		<div class="choose-pass">
+			<div class="choose-pass-l">
+				<i class="names-icon"></i>
+				<span class="choose-pass-title">姓&nbsp;&nbsp;&nbsp;名</span>
+			</div>
+			<div class="choose-pass-ri">
+				<input type="text" name="customername" id="customername" class="choose-pass-inp" placeholder="请输入您的姓名"/>
+			</div>
+		</div>
+
+		<!--手机号-->
+		<div class="choose-pass">
+			<div class="choose-pass-l">
+				<i class="telphones-icon"></i>
+				<span class="choose-pass-title">手机号</span>
+			</div>
+			<div class="choose-pass-ri">
+				<input type="text" name="customerphone" id="customerphone" class="choose-pass-inp" placeholder="请输入您的手机号" onkeyup="this.value=this.value.replace(/[^0-9-]+/,'');" maxlength="11"/>
+			</div>
+		</div>
+		<div id="imgarr"></div>
+		<!--提交-->
+		<div class="bottom-submit">
+			<input type="hidden" name="region_id" id="region_id" />
+			<input type="hidden" name="patroltype_id" id="patroltype_id" />
+			<input type="hidden" name="qrcode_id" id="qrcode_id" />
+			<button type="button" class="submit-btn" id="submitInspec" onclick="submitInspection()">提交</button>
+		</div>
+	</form>
+
+</div>
+
+
+<!--涂鸦-->
+<div id="fullscreen" style="display: block;">
+	<table>
+		<button id="save" class="save-btn">确定</button>
+		<tr>
+			<td>
+				<div id="wPaint" style="position:relative;width:500px; height:300px; ">
+
+				</div>
+			</td>
+			<td>
+				<img id="canvasImage" src=""/>
+
+			</td>
+		</tr>
+	</table>
+</div>
+
+<!--提示信息-->
+<input id="message" hidden="hidden" value="">
+<div class="alert ts" style="display:none">
+	<h2>消息</h2>
+	<div class="alert_con">
+		<p id="ts"></p>
+		<p style="line-height:70px"><a class="btn" id="sure">确定</a></p>
+	</div>
+</div>
+
+<!-- 成功刷新-->
+<input id="success" hidden="hidden" value="">
+<div class="alert sx" style="display:none">
+	<h2>消息</h2>
+	<div class="alert_con">
+		<p id="cg"></p>
+		<p style="line-height:70px"><a class="btn" id="succ">确定</a></p>
+	</div>
+</div>
+
+
+</body>
+
+
+<script type="text/javascript">
+
+    //屏幕适配
+    (function() {
+        var html = document.documentElement;
+        var width = html.getBoundingClientRect().width;
+        html.style.fontSize = width / 15 + 'px';
+        //至于除数15可自行设置
+        //1rem=50;
+    })()
+
+    //提示信息确定
+    function is_hide(){ $(".alert").animate({"top":"-40%"}, 300); };
+    function is_show(varId,message,flag){
+        $(varId).html("");
+        $(varId).html(message);
+        if(flag){
+            $(".ts").show().animate({"top":"45%"}, 300);
+        }else{
+            $(".sx").show().animate({"top":"45%"}, 300);
+        }
+    };
+    $("#succ").click(function(){
+        //window.location.href="index.html"
+        is_hide();
+    })
+    $("#sure").click(function(){
+        is_hide();
+    })
+
+    //数据加载
+    $(function () {
+        var describe="";
+        var region = uncompileStr(getParameter("r"));
+        var type = uncompileStr(getParameter("t"));
+        var qrcode = uncompileStr(getParameter("q"));
+        alert(region+","+type+","+qrcode);
+        if(null!=region && null!=type){
+            var result = showHtml(url1+"detection/getScancode/"+region+"/"+type+"/"+qrcode,"");
+            if(result!=null&&result.typeList!=null){
+                $("#region_id").val(region);
+                $("#patroltype_id").val(type);
+                $("#qrcode_id").val(qrcode);
+                console.log(result);
+                if(result.flag){
+                    $("#titleName").html(result.regionName+"-"+result.typeName+"-"+result.remark);
+                    var data = result.typeList;
+                    for(var ids in data){
+                        describe+= '<option value="'+data[ids].name+'">'+data[ids].name+'</option>'
+                    }
+                    $("#ReasonSelect").html(describe);
+                }else{
+                    is_show("#ts",result.message,true);
+                }
+            }
+        }else{
+            $("#ReasonSelect").html('<option value="" disabled selected style="display:none;">暂无数据</option> ');
+		}
+    });
+
+    //对字符串进行加密
+    /*function compileStr(code){
+        var c=String.fromCharCode(code.charCodeAt(0)+code.length);
+        for(var i=1;i<code.length;i++){
+            c+=String.fromCharCode(code.charCodeAt(i)+code.charCodeAt(i-1));
+        }
+        return escape(c);
+    }*/
+
+
+    //字符串进行解密
+    function uncompileStr(code) {
+        code = unescape(code);
+        var c = String.fromCharCode(code.charCodeAt(0) - code.length);
+        for (var i = 1; i < code.length; i++) {
+            c += String.fromCharCode(code.charCodeAt(i) - c.charCodeAt(i - 1));
+        }
+        return c;
+    }
+
+
+    function getParameter(value) {
+        var reg = new RegExp("(^|&)"+value+"=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        return r!=null?unescape(r[2]):null;
+    }
+
+    //提交
+    function submitInspection() {
+        var customername = $("#customername").val();
+        var customerphone = $("#customerphone").val();
+        if(customername == ''){
+            is_show("#ts","请输入您的姓名",true);
+            return false;
+        }else if(customerphone == '') {
+            is_show("#ts","请输入您的手机号",true);
+            return false;
+        }
+        var result = showHtml(url1+"detection/setScancode/",$("#inspectionForm").serializeJson());
+        if(result.flag){
+            $("#submitInspec").attr("disabled","disabled");
+            setCookie("customername",customername);
+            setCookie("customerphone",customerphone);
+            is_show("#cg",result.message,false);
+        }else{
+            is_show("#ts",result.message,true);
+        }
+        $("#customername").val('');
+        $("#customerphone").val('');
+        $("#ReasonInput").val('');
+        $("#imgBox").siblings(".add-picture-li").remove();
+    }
+
+    //原因选择
+    function checkClick(obj){
+        if(obj.checked) {
+            $("#ReasonSelect").hide();
+            $("#ReasonInput").prop("type","text");
+            $("#ReasonSelect").removeAttr("name");
+            $("#ReasonInput").prop("name","descr");
+        } else {
+            $("#ReasonSelect").show();
+            $("#ReasonInput").prop("type","hidden");
+            $("#ReasonInput").removeAttr("name");
+            $("#ReasonSelect").prop("name","descr");
+        }
+    }
+
+    //是否合格
+    $("#WhetherQualified button").click(function () {
+        $("#WhetherQualified button").removeClass("pass-btn-active");
+        $(this).addClass("pass-btn-active");
+        $("#normal").val('');
+        $("#normal").val($(this).index())
+    })
+
+
+    //canvas先加载一张空的图片
+    $("#wPaint").wPaint({image: "", }).data('_wPaint');
+    //涂鸦
+    var img_id;
+    $("#fullscreen").hide();
+    function enlargeImg(img){
+        //判断该终端是否为ios
+        var u = navigator.userAgent;
+        var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
+        getPhotoOrientation(isiOS);
+
+        $(".save-btn").css("display","block");
+        img_id=img;
+        $("#imgsDIV").hide();
+        $("#fullscreen").show();
+        //加载图片
+        var imgUrl=$("#"+img).attr("src");
+        var width = $(window).width();
+        var height = $(window).height();
+
+        $('#wPaint').css({
+            width: width,
+            height: height
+        });
+        var wp = $("#wPaint").data('_wPaint');
+        $(wp.canvas).attr('width', width + 'px').attr('height', height + 'px');
+        $(document).ready(function(){ $(window).resize(); });
+        $("#wPaint").wPaint("image", imgUrl);
+
+    }
+    //确定保存修改后的图片
+    $("#save").click(function(){
+
+        $("#fullscreen").hide();
+        $("#imgsDIV").show();
+        var imageData = $("#wPaint").wPaint("image");
+        $("#canvasImage").attr('src', imageData);
+        $("#"+img_id).attr("src",imageData);
+        var id = img_id.substr(img_id.indexOf("_")+1);
+        $("#imgBase"+id).html(imageData.split(",")[1]);
+        ok = 16;
+    })
+
+
+    // 拍照
+    var i = 1;
+    var takePictureOnclick = function(){
+        k = 5;
+        var takePicture = document.getElementById('takepicture');
+        takePicture.click();
+        var takePictureUrl = function () {
+            takePicture.onchange = function (event) {
+                var files = event.target.files;
+                if (files && files.length > 0) {
+                    file = files[0];
+                    try {
+                        i++;
+                        var URL = window.URL || window.webkitURL;
+                        var blob = URL.createObjectURL(file);
+
+                        var reader = new FileReader();
+                        reader.readAsDataURL(file);
+                        reader.onload=function() {
+
+                            $("#imgarr").append('<textarea id="imgBase'+i+'" name="files" hidden >'+this.result.split(",")[1]+'</textarea>');
+                        };
+                        //赋值
+                        $("#imgBox").before('<li class="add-picture-li">'+
+                            '<img class="add-picture-img" id="img_'+i+'" onclick="enlargeImg(\'img_\'+'+i+')"  src="'+blob+'"/>'+
+                            '</li>');
+
+                    }
+                    catch (e) {
+                        try {
+                            var fileReader = new FileReader();
+                            fileReader.onload = function (event) {　　　　// 获取照片的base64编码
+                            };
+                            fileReader.readAsDataURL(file);
+                        }
+                        catch (e) {
+                            alert(common.MESSAGE.title.error, '拍照失败,请联系客服或尝试更换手机再试!');
+                        }
+                    }
+                }
+            }
+        }();
+    }
+
+    $(function () {
+        $("#customername").val(getCookie("customername"));
+        $("#customerphone").val(getCookie("customerphone"));
+    })
+
+
+
+    //存cookies
+    function setCookie(name,value){
+        var Days = 30;
+        var exp = new Date();
+        exp.setTime(exp.getTime() + Days*24*60*60*1000);
+        document.cookie = name + "="+ escape (value) + ";expires=" + exp.toGMTString();
+    }
+
+    /* //设置自定义过期时间cookie
+     function setCookie(name,value,time){
+         var msec = getMsec(time); //获取毫秒
+         var exp = new Date();
+         exp.setTime(exp.getTime() + msec*1);
+         document.cookie = name + "="+ escape (value) + ";expires=" + exp.toGMTString();
+     }*/
+    //将字符串时间转换为毫秒,1秒=1000毫秒
+    function getMsec(DateStr){
+        var timeNum=str.substring(0,str.length-1)*1; //时间数量
+        var timeStr=str.substring(str.length-1,str.length); //时间单位前缀，如h表示小时
+        if (timeStr=="s"){ //20s表示20秒
+            return timeNum*1000;}
+        else if (timeStr=="h"){ //12h表示12小时
+            return timeNum*60*60*1000;}
+        else if (timeStr=="d"){
+            return timeNum*24*60*60*1000;} //30d表示30天
+    }
+
+    //读取cookies
+    function getCookie(name){
+        var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)"); //正则匹配
+        if(arr=document.cookie.match(reg)){
+            return unescape(arr[2]);
+        }
+        else{
+            return null;
+        }
+    }
+
+
+    //删除cookies
+    function delCookie(name){
+        var exp = new Date();
+        exp.setTime(exp.getTime() - 1);
+        var cval=getCookie(name);
+        if(cval!=null){
+            document.cookie= name + "="+cval+";expires="+exp.toGMTString();
+        }
+    }
+
+
+    //修正ios旋转90°
+    var k=5;
+    var ok;
+    function getPhotoOrientation(isiOS) {
+        k++;
+        if(isiOS == false){
+            ok = 18;
+        }else if(isiOS === true && k == 6) {
+            ok = 6;
+        }
+        return ok;
+    }
+
+
+</script>
+</html>

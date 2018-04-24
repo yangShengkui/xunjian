@@ -1,0 +1,372 @@
+<!doctype html>
+<html lang="en" id="html" class="fixed">
+
+	<head>
+		<title>类别管理</title>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+		<link rel="import" href="../../statics/include-header.html">
+		<link rel="import" href="../../statics/include-JS.html">
+	</head>
+	<body>
+	<abbr>
+
+
+		<div id="body1">
+
+			<button type="button" id="addDiv" class="btn btn-wide btn-primary" data-toggle="modal" onclick="AddType();" >
+				类别添加
+			</button>
+			<div class="modal fade" id="error-modal" tabindex="-1" role="dialog" aria-labelledby="modal-error-label">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header state modal-danger">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+							<h4 class="modal-title" id="modal-error-label"><i class="fa fa-warning"></i>删除类别</h4>
+						</div>
+						<div class="modal-body">
+							请您确定要删除此数据吗？
+						</div>
+						<div class="modal-footer">
+							<input type="hidden" id="deleteId">
+							<button type="button" class="btn btn-danger" data-dismiss="modal" onclick="delSubmit()">确定</button>
+							<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<br/>
+
+			<!--添加-->
+			<div class="modal fade " id="md-modal" tabindex="-1" role="dialog" aria-labelledby="modal-default-label">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header state modal-primary">
+
+							<h4 class="modal-title" id="modal-default-label">类别信息</h4>
+						</div>
+						<div class="modal-body">
+							<div class="col-md-12">
+								<div class="panel">
+									<div class="panel-content">
+										<div class="row">
+											<div class="col-sm-12">
+												<form id="Addform" method="post" enctype="multipart/form-data" class="form-horizontal form-stripe">
+													<h6 class="mb-xlg text-center"><b>添加类别</b></h6>
+													<div class="form-group">
+														<label for="name" class="col-sm-2 control-label">名称</label>
+														<div class="col-sm-10">
+															<input type="text" class="form-control" name="name" id="name" placeholder="请输入您的名称" autocomplete="off">
+														</div>
+													</div>
+													<div class="form-group">
+														<label  class="col-sm-2 control-label">描述</label>
+														<div class="col-sm-10">
+															<textarea class="form-control" name="descr" id="descr" placeholder="请输入您的描述"></textarea>
+														</div>
+													</div>
+													<div class="form-group" style="position: relative;">
+														<label  class="col-sm-2 control-label">图片</label>
+														<button type="button" class="choiceImg"  style="position: absolute; left: 100px; top: 0px; border: 2px solid greenyellow; border-radius: 5px; margin-right: 40px;">选择图片</button><!--onclick="selectFile();"-->
+														<input type="file" name="multipartFile" class="imgFile" style="display:none;" /><!--onchange="fileType();"-->
+														<input type="text" name="imgFake"  style="display: none;" />
+														<img class="preview" id="preview" onclick="changeImgsize('preview');" style=" margin-left: 100px; width: 90px; height: 120px; border: 4px solid green;" >
+														<span style="color: #e73d4a;"></span>
+													</div>
+												</form>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<div class="reminder-info"></div>
+							<button type="button" class="btn btn-primary"  id="AddTypeSubmit" onclick="AddTypeSubmit()">确定</button>
+							<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!--修改-->
+			<div class="modal fade " id="xg-modal" tabindex="-1" role="dialog" aria-labelledby="modal-default-label">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header state modal-primary">
+							<h4 class="modal-title" >类别信息</h4>
+						</div>
+						<div class="modal-body">
+							<div class="col-md-12">
+								<div class="panel">
+									<div class="panel-content">
+										<div class="row">
+											<div class="col-sm-12">
+												<form id="Updateform" class="form-horizontal form-stripe">
+													<h6 class="mb-xlg text-center"><b>修改类别</b></h6>
+													<div class="form-group">
+														<label for="name" class="col-sm-2 control-label">名称</label>
+														<input type="hidden" name="id" id="id">
+														<div class="col-sm-10">
+															<input type="text" class="form-control" name="name" id="xg-name" placeholder="请输入您的名称" autocomplete="off">
+														</div>
+													</div>
+													<div class="form-group">
+														<label  class="col-sm-2 control-label">描述</label>
+														<div class="col-sm-10">
+															<textarea class="form-control" name="descr" id="xg-descr" placeholder="请输入您的描述"></textarea>
+														</div>
+													</div>
+
+													<div class="form-group" style="position: relative;">
+														<label  class="col-sm-2 control-label">图片</label>
+														<button type="button" class="choiceImg"  style="position: absolute; left: 100px; top: 0px; border: 2px solid greenyellow; border-radius: 5px; margin-right: 40px;">选择图片</button><!--onclick="selectFile();"-->
+														<input type="file" name="multipartFile" class="imgFile" style="display:none;" /><!--onchange="fileType();"-->
+														<input type="text" name="imgFake"  style="display: none;" />
+														<img class="preview" id="xg-preview" onclick="changeImgsize('xg-preview');" style=" margin-left: 100px; width: 90px; height: 120px; border: 4px solid green;" >
+														<span style="color: #e73d4a;"></span>
+													</div>
+												</form>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<div class="reminder-info"></div>
+							<button type="button" class="btn btn-primary" id="upDateType" onclick="upDateSubmit();">确定</button>
+							<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-sm-12 mt-md  mb-lg ">
+				<div class="panel">
+					<div class="panel-content">
+
+						<table id="sqz" class="data-table table table-striped table-hover responsive nowrap" cellspacing="0" width="100%">
+
+							<thead>
+								<tr>
+									<th name="id">ID</th><!--隐藏的-->
+									<th name="name">名称</th>
+									<th name="descr">描述</th>
+									<th name="url">图片</th>
+									<th name="cz">操作</th>
+								</tr>
+							</thead>
+
+						</table>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+		<!--提示信息-->
+		<input id="message" hidden="hidden" value="">
+		<div class="alert ts" style="display:none">
+			<h2>消息</h2>
+			<div class="alert_con">
+				<p id="ts"></p>
+				<p style="line-height:70px"><a class="btn" id="sure">确定</a></p>
+			</div>
+		</div>
+
+		<!-- 成功刷新-->
+		<input id="success" hidden="hidden" value=""><!--value="${message}"-->
+		<div class="alert sx" style="display:none">
+			<h2>消息</h2>
+			<div class="alert_con">
+				<p id="cg"></p>
+				<p style="line-height:70px"><a class="btn" id="succ">确定</a></p>
+			</div>
+		</div>
+
+		
+		
+		<script type="text/javascript">
+
+			//添加
+			function AddType() {
+			    $("#md-modal").modal();
+			    //清空
+                $("#name").val('');
+                $("#descr").val('');
+                //$("#preview").attr('src','');
+                $("input[name=multipartFile]").val('');
+			}
+
+			//添加提交操作
+			function AddTypeSubmit() {
+			    var name = $("#name").val();
+			    var descr = $("#descr").val();
+			    var img = $("input[name=multipartFile]").val();
+			    if(name == ''){
+                    is_show("#ts","请输入名称",true);
+                    return false;
+				}else if(descr == '') {
+                    is_show("#ts","请输入描述",true);
+                    return false;
+				}else if(img == '') {
+                    is_show("#ts","请上传图片",true);
+                    return false;
+				}
+				var result = showHtml(url1+"areatype/setAreatype",$("#Addform").serializeJson());
+			    if(result.flag){
+                    $("#AddTypeSubmit").attr("disabled","disabled");
+                    is_show("#cg",result.message,false);
+				}
+            }
+
+            //点击修改传参
+			function updateType(id,name,descr,url) {
+				$("#id").val(id);
+				$("#xg-name").val(name);
+                $("#xg-descr").val(descr);
+                $("#xg-preview").attr("src",url);
+            }
+
+            //修改提交
+			function upDateSubmit() {
+                var name = $("#xg-name").val();
+                var descr = $("#xg-descr").val();
+                if(name == ''){
+                    is_show("#ts","名称不能为空",true);
+                    return false;
+                }else if(descr == '') {
+                    is_show("#ts","描述不能为空",true);
+                    return false;
+				}
+				var result = showHtml(url1+"areatype/setAreatype",$("#Updateform").serializeJson());
+                console.log(result.flag);//返回true
+				if(result.flag){
+                    $("#upDateType").attr("disabled","disabled");
+                    is_show("#cg",result.message,false);
+				}else{
+                    is_show("#ts",result.message,true);
+				}
+
+            }
+
+            //点击删除
+			function setdel(id) {
+                $("#deleteId").val(id);
+            }
+
+            //删除
+			function delSubmit() {
+                var result = showHtml(url1+"areatype/deleteAreatypeById/"+ $("#deleteId").val(),"");
+                console.log(result.flag);//返回true
+                if(result.flag){
+                    $("#upDateType").attr("disabled","disabled");
+                    is_show("#cg",result.message,false);
+                }else{
+                    is_show("#ts",result.message,true);
+                }
+            }
+
+		</script>
+		<script type="text/javascript">
+
+			
+            $(function() {
+                var result=showHtml(url1+"areatype/getAreatypeList","");
+                console.log(result.patroltypeList);
+
+                for(var p in result.patroltypeList){//遍历json数组时，这么写p为索引，0,1
+
+                    result.patroltypeList[p].cz='<button class="btn btn-wide btn-o btn-info"  data-toggle="modal"   data-target="#xg-modal" onclick="updateType(\''+result.patroltypeList[p].id+'\',\''+result.patroltypeList[p].name+'\',\''+result.patroltypeList[p].descr+'\',\''+result.patroltypeList[p].url+'\')">修改</button>'+
+                        '<button class="btn btn-wide btn-o btn-danger" data-toggle="modal"   data-target="#error-modal" onclick="setdel('+result.patroltypeList[p].id+')" >删除</button>';
+                    result.patroltypeList[p].url='<a class="imgs" href="javascript:;"  onmouseover="lookImg('+result.patroltypeList[p].id+',0);" onmouseout="lookImg('+result.patroltypeList[p].id+',1);">' +'查看' +
+                        '<img class="imgs" id="imgs'+result.patroltypeList[p].id+'" src="'+result.patroltypeList[p].url+'" hidden="hidden" >'+
+                        '</a>';
+                }
+
+                ShowDataTable("sqz",result.patroltypeList,"id");
+
+            });
+
+
+            //提示信息确定
+            $("#succ").click(function(){
+                showHtmlRight('./code/manage/TypeManage.html');
+            })
+            $("#sure").click(function(){
+                is_hide();
+            })
+
+            function h5Menu(){
+                if($("#html").attr("class")=="fixed")
+                    $("#html").addClass("left-sidebar-open");
+                else
+                    $("#html").removeClass("left-sidebar-open");
+            }
+
+
+			//图片预览
+			function lookImg(id,state){
+				if(state == 0) $("#imgs"+id).css({"display":"block","width":"200px","height":"280px","position":"absolute","zIndex":99999});
+				else		   $("#imgs"+id).css({"display":"none","width":"0px","height":"0px","position":"absolute","zIndex":99999});
+			}
+			
+			//模拟点击上传图片按钮
+			function selectFile(){
+				$("#btnfile").click();
+			}
+			//添加   or 修改  显示选中的图片
+			$(".choiceImg").click(function () {
+			    $(this).next().click();
+            })
+
+			$(".imgFile").change(function () {
+
+                var name=$(this).val();
+                var fileName = name.substring(name.lastIndexOf(".")+1).toLowerCase();
+                if(fileName != ''){
+                    /!* 选择的不是图片就重新选 *!/
+                    if(fileName !="jpg" && fileName !="jpeg" && fileName !="png" && fileName !="gif"){
+                        $(this).next().next().next().text("请选择图片文件上传！").show();
+                        setTimeout(" $(this).next().next().next().text('').hide();",2500);//imgSpan
+                        return false;
+                        /!* 是图片就显示缩略图 *!/
+                    }else{
+                        var imgObjPreview = $(this).next().next();//preview
+                        imgObjPreview.show();
+                        imgObjPreview.css("width","90px");
+                        imgObjPreview.css("height","120px");
+                        $(this).next().next().attr("src",window.URL.createObjectURL($(this).prop('files')[0]));//btnfile
+                        $(this).next().blur();//imgFake
+                        return true;
+                    }
+                }else{
+                    $(this).next().next().show();//preview
+                    return false;
+                }
+            })
+
+
+            //点击图片放大
+            var flag;
+            function changeImgsize(ids) {
+                var width = 82;
+                var height = 112;
+                if(flag){
+                    flag = false;//把状态设为常态状态
+                    $("#"+ids).width(width);
+                    $("#"+ids).height(height);
+                }else{
+                    flag = true;//把状态设为放大状态
+                    $("#"+ids).width(width*2);
+                    $("#"+ids).height(height*2);
+                }
+            }
+			
+		</script>
+	</abbr>
+	</body>
+
+</html>

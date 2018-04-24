@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="en" id="html" class="fixed">
+
+	<head>
+		<title>报表管理-巡检记录查询</title>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="import" href="../../statics/include-header.html">
+		<link rel="import" href="../../statics/include-JS.html">
+
+	</head>
+
+	<body>
+	<abbr>
+	<link rel="stylesheet" href="../../statics/css/login/public.css" />
+	<link rel="stylesheet" href="../../statics/css/Ecalendar.css" />
+	<script src="../../statics/js/Ecalendar.jquery.js"></script>
+	<!--右侧表格-->
+	<div class="FindContainer">
+		<form id="reportInspectionForm">
+			<label>开始时间</label>
+			<input type="button" class="inp-md"  id="datetime" placeholder="" />
+			<input type="hidden" name="beginDate" id="startDate">
+			<label>结束时间</label>
+			<input type="button" class="inp-md" id="datetime2" placeholder="" />
+			<input type="hidden" name="endDate" id="endDate">
+			<label>区域</label>
+			<!--yibu-->
+			<select name="region_id" id="region_id" class="inp-md">
+			</select>
+			<label>类型</label>
+			<select name="patroltype_id" id="patroltype_id" class="inp-md">
+			</select>
+			<button type="button" class="btn btn-o btn-info btn-md" onclick="queryReport();">查询</button>
+		</form>
+	</div>
+
+	<div id="body1">
+		<div class="col-sm-12 mt-md  mb-lg ">
+			<div class="panel">
+				<div class="panel-content">
+
+					<table id="reportTbale" class="data-table table table-striped table-hover responsive nowrap" cellspacing="0" width="100%">
+
+						<thead>
+							<tr>
+								<th name="regionName">区域</th>
+								<th name="typeName">类别</th>
+								<th name="customername">用户名</th>
+								<th name="customerphone">联系方式</th>
+								<th name="url">图片</th>
+								<th name="descr">描述</th>
+								<th name="normal">是否异常</th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!--提示信息-->
+	<input id="message" hidden="hidden" value="">
+	<div class="alert ts" style="display:none">
+		<h2>消息</h2>
+		<div class="alert_con">
+			<p id="ts"></p>
+			<p style="line-height:70px"><a class="btn" id="sure">确定</a></p>
+		</div>
+	</div>
+
+	<!-- 成功刷新-->
+	<input id="success" hidden="hidden" value="">
+	<div class="alert sx" style="display:none">
+		<h2>消息</h2>
+		<div class="alert_con">
+			<p id="cg"></p>
+			<p style="line-height:70px"><a class="btn" id="succ">确定</a></p>
+		</div>
+	</div>
+
+
+	<script type="text/javascript">
+
+	//提示信息确定
+	$("#succ").click(function(){
+		showHtmlRight('./code/manage/Managetable.html');
+	})
+	$("#sure").click(function(){
+		is_hide();
+	})
+
+	//清除开始日期
+    $("#datetime").click(function () {
+        disableds = false;
+    });
+    //时间插件
+    var myDate = new Date();
+    var format=myDate.getFullYear()+'-'+(myDate.getMonth()+1)+'-'+myDate.getDate();
+    $("#datetime").val(format);
+    $("#datetime2").val(format);
+    $("#startDate").val($("#datetime").val());
+    $("#endDate").val($("#datetime2").val());
+    $(function () {
+        $("#datetime").ECalendar({
+            type: "date",   //模式，time: 带时间选择; date: 不带时间选择;
+            stamp: false,   //是否转成时间戳，默认true;
+            offset: [0, 2],   //弹框手动偏移量;
+            format: "yyyy-mm-dd",   //时间格式 默认 yyyy-mm-dd hh:ii;
+            skin: 3,   //皮肤颜色，默认随机，可选值：0-8,或者直接标注颜色值;
+            step: 10,   //选择时间分钟的精确度;
+            callback: function (v, e) {//回调函数
+                $("#startDate").val(v);
+                v = v.split("-");
+                v[0] = Number(v[0]);
+                v[1] = Number(v[1]);
+                v[2] = Number(v[2]);
+                datetime2(v);
+            },
+            disableds: false //[2017,8,30]禁选传入的日期之前的日期，false无限制;
+        });
+    });
+
+
+    function datetime2(datetime) {
+
+        $("#datetime2").ECalendar({
+            type: "date",   //模式，time: 带时间选择; date: 不带时间选择;
+            stamp: false,   //是否转成时间戳，默认true;
+            offset: [0, 2],   //弹框手动偏移量;
+            format: "yyyy-mm-dd",   //时间格式 默认 yyyy-mm-dd hh:ii;
+            skin: 3,   //皮肤颜色，默认随机，可选值：0-8,或者直接标注颜色值;
+            step: 10,   //选择时间分钟的精确度;
+            callback: function (v, e) {//回调函数
+                $("#endDate").val(v);
+                //点击选中的日期关闭日历框
+                $(".day li").click(function () {
+                    $(".ECalendarBox").hide();
+                });
+
+            },
+            disableds: datetime //[2017,8,30]禁选传入的日期之前的日期，false无限制;
+        });
+
+    }
+
+
+    $(function () {
+        var result = showHtml(url1+"report/getRegionAndType","");
+        var regionList = result.regionList;
+        var typeList = result.typeList;
+        var region = "";
+        var type = "";
+        //erbu
+        for(var ids in regionList){
+            region+='<option value="'+regionList[ids].id+'">'+regionList[ids].name+'</option>';
+        }
+
+        $("#region_id").html(region);
+
+        for(var ids in typeList){
+            type+='<option value="'+typeList[ids].id+'">'+typeList[ids].name+'</option>';
+        }
+        $("#patroltype_id").html(type);
+
+        //加载数据
+        var result = showHtml(url1+"report/selectQrReport","");
+        var data = result.pPatolinfos;
+        ShowDataTable("reportTbale",data,"");
+    });
+
+
+    //查询数据
+    function queryReport() {
+        var result = showHtml(url1+"report/selectQrReport",$("#reportInspectionForm").serializeJson());
+        if(result.flag){
+            var data = result.pPatolinfos;
+            for (var ids in data){
+                data[ids].normal = (data[ids].normal == 0)?"异常":"不异常";
+
+                //没有图片不显示查看
+                if(data[ids].url == "") {
+                    data[ids].url='';
+				}else if(data[ids].url == null){
+                    data[ids].url='';
+                }else{
+                    var result=data[ids].url.split(",");
+                    if(result.length == 1){
+                        data[ids].url='<a href="javascript:;"  onmouseover="lookImg('+data[ids].id+',0);" onmouseout="lookImg('+data[ids].id+',1);">' +'查看' +
+                            '<img id="imgs'+data[ids].id+'" src="'+data[ids].url+'" hidden="hidden">'+
+                            '</a>';
+                    }else if(result.length > 1){
+                        var imgHtml = "";
+                        for(var i=0;i<result.length;i++){
+                            imgHtml +=  '<img class="imgAll" src="'+result[i]+'" hidden>'
+                        }
+                        data[ids].url='<a class="imgs" href="javascript:;" >'+'查看'+imgHtml+'</a>';
+                    }
+                }
+            }
+
+            ShowDataTable("reportTbale",data,"");
+
+        }else{
+            is_show("#ts",result.message,true);
+        }
+
+    }
+
+
+    //图片预览
+    function lookImg(id,state){
+        if(state == 0) $("#imgs"+id).css({"display":"block","width":"200px","height":"280px","position":"absolute","zIndex":99999});
+        else		   $("#imgs"+id).css({"display":"none","width":"0px","height":"0px","position":"absolute","zIndex":99999});
+    }
+
+    //多图预览
+    $("#reportTbale").delegate(".imgs","mouseover",function(){
+        $(this).find("img").show();
+    })
+    $("#reportTbale").delegate(".imgs","mouseout",function(){
+        $(this).find("img").hide();
+    })
+
+	</script>
+	</abbr>
+	</body>
+
+</html>
